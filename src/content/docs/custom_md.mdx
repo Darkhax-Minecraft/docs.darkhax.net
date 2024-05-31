@@ -1,0 +1,91 @@
+---
+title: Style Guide
+description: A guide to the custom markdown syntax that is available.
+---
+This website has several custom markdown features that can be used to enhance project documentation. This page attempts
+to document most of these features.
+
+## CurseForge Project Embed
+
+::cf-embed[]{p=862201}
+::cf-embed[]{p=228525}
+::cf-embed[]{p=353928}
+
+## CurseForge Project Banner
+
+We have a custom markdown plugin that will embed a banner for a project on CurseForge. This should be used at the top of
+any page that documents a specific project. This will hopefully help prevent readers confusing what mod the
+documentation is for.
+
+### All Banner Options
+| Property       | Example   | Default | Functionality                                                   |
+|----------------|-----------|---------|-----------------------------------------------------------------|
+| p or projectId | p=2228525 | NONE    | Sets the ID of the CurseForge project to generate a banner for. |
+
+### Examples
+```md
+::cf-banner[]{p=228525}
+::cf-banner[]{p=353928}
+::cf-banner[]{p=242195}
+````
+
+::cf-banner[]{p=228525}
+::cf-banner[]{p=353928}
+::cf-banner[]{p=242195}
+
+## YouTube Embeds
+
+We have a custom markdown plugin that allows us to embed videos. There are a lot of options but they generally should
+not be needed or used.
+
+- `::youtube[]{v=fGUdgi5TW0E}` - Simple 16:9 video embed.
+- `::youtube[]{v=fGUdgi5TW0E start=5}` - Starts the video at 5 seconds.
+- `::youtube[]{v=fGUdgi5TW0E vertical=1}` - Shows a vertical 9:16 video, like a short.
+
+### All YouTube Embed Options
+
+|  Property  |    Example    | Default | Functionality                                                                                                                       |
+|:----------:|:-------------:|---------|-------------------------------------------------------------------------------------------------------------------------------------|
+| v or video | v=fGUdgi5TW0E | NONE    | Sets the ID of the video to embed. You can use either property name.                                                                |
+|  autoplay  |   autoplay=1  | 0       | Toggles if the video should start playing automatically.                                                                            |
+|    color   |  color=white  | red     | Changes the player accent color. The only options allowed are white or red.                                                         |
+|  controls  |   controls=1  | 1       | Toggles if the player controls are enabled.                                                                                         |
+|  disablekb |  disablekb=1  | 0       | Toggles if the player can be controlled using keyboard shortcuts.                                                                   |
+|    start   |    start=5    | 0       | Sets the start time of the video. Time is in seconds and matches nearest keyframe.                                                  |
+|     end    |     end=15    | -1      | Sets the end time of the video. -1 uses the videos natural end time. Time is in seconds and matches nearest keyframe.               |
+|     fs     |      fs=1     | 1       | Toggles if the user can make the video full screen or not.                                                                          |
+|    loop    |     loop=1    | 0       | Toggles if the video should loop back to the start when it is finished.                                                             |
+|     rel    |     rel=1     | 0       | Toggles the types of recommended videos YouTube shows after the video has ended. 0 = same channel as the original. 1 = any channel. |
+|     pip    |     pip=1     | 0       | Toggles if picture-in-picture is allowed for the video.                                                                             |
+|  vertical  |   vertical=1  | 0       | Sets the video to 9:16 aspect ratio like a short or tiktok.                                                                         |
+
+### YouTube Embed CSS Classes
+The embedded iframe will always be wrapped in a div with the `yt-embed-container` class. It will also have `yt-embed-h`
+or `yt-embed-v` if `vertical=1` was set. The embedded iframe will have the `yt-embed-video` class.
+
+Starlight sets the height of iframe to auto which doesn't work well with youtube videos. This is fixed by forcing the
+height to 100%.
+```css
+.yt-embed-video {
+    height: 100% !important;
+}
+```
+
+To control the aspect ratio we're using the tailwind aspect ratio plugin.
+```css
+.yt-embed-h {
+    @apply aspect-w-16 aspect-h-9;
+}
+
+.yt-embed-v {
+    @apply aspect-w-9 aspect-h-16;
+}
+```
+
+### Examples
+
+#### Horizontal
+::youtube[]{v=fGUdgi5TW0E}
+
+#### Vertical
+::youtube[]{v=fGUdgi5TW0E vertical=true}

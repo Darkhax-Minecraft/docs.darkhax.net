@@ -1,0 +1,47 @@
+.yt-embed-h {
+    @apply aspect-w-16 aspect-h-9;
+}
+
+.yt-embed-v {
+    @apply aspect-w-9 aspect-h-16;
+}
+
+.yt-embed-video {
+    height: 100% !important;
+}
+
+.cf-project-banner {
+    @apply mb-9 flex gap-x-4 p-2 border-2 border-cyan-800 bg-cyan-700 bg-opacity-25;
+}
+
+.cf-project-banner-logo {
+    @apply flex-none w-32 h-32 my-auto bg-slate-900 border-2 border-cyan-800
+}
+
+.cf-project-banner-text {
+    @apply text-sm sm:text-lg my-auto;
+}
+
+.cf-project-embed {
+    @apply flex flex-row border-4 rounded-2xl border-cyan-950 bg-accent-900 !important;
+}
+
+.cf-project-embed-logo {
+    @apply object-cover aspect-1 pl-2 pr-3 py-3 lg:transition-transform lg:ease-in-out lg:hover:scale-150
+}
+
+.cf-project-embed-info {
+    @apply flex flex-col pt-3 pr-2 leading-normal w-5/6;
+}
+
+.cf-project-embed-title {
+    @apply font-bold mt-0 text-lg sm:text-xl;
+}
+
+.cf-project-embed-summary {
+    @apply mt-0 text-xl !important;
+}
+
+.simple-grid {
+    @apply grid grid-cols-1 lg:grid-cols-2 gap-y-2 sm:gap-x-2 mt-7 p-0;
+}
