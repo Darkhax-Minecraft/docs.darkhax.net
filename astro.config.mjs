@@ -5,9 +5,13 @@ import {youtubeDirective} from './src/lib/markdown/youtube.ts';
 import {cfProjectBanner} from "./src/lib/markdown/cf_project_banner.ts";
 import {cfProjectEmbed} from "./src/lib/markdown/cf_project_embed.ts";
 import tailwind from "@astrojs/tailwind";
+import {env} from "node:process"
+
+const outDir = env.outDir || "./dist/"
 
 export default defineConfig({
     site: `https://docs.darkhax.net`,
+    outDir: `${outDir}root`,
     integrations: [starlight({
         title: `Mod Docs`,
         logo: {
