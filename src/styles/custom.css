@@ -23,7 +23,7 @@
 }
 
 .cf-project-embed {
-    @apply flex flex-row border-4 rounded-2xl border-cyan-950 bg-accent-900 !important;
+    @apply flex flex-row border dark:border-4 rounded-2xl border-cyan-200 dark:border-cyan-950 bg-accent-900 bg-opacity-20 dark:bg-opacity-100 !important;
 }
 
 .cf-project-embed-logo {
