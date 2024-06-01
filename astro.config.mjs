@@ -9,7 +9,9 @@ import tailwind from "@astrojs/tailwind";
 const gameVersion = '1.20.1';
 
 export default defineConfig({
-    site: 'https://docs.darkhax.net/mc/1.20.1',
+    site: `https://docs.darkhax.net/mc/${gameVersion}`,
+    base: `/${gameVersion}`,
+    outDir: `./dist/${gameVersion}`,
     integrations: [starlight({
         title: `Mod Docs | ${gameVersion}`,
         logo: {
