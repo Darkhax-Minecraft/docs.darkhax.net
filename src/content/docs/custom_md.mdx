@@ -2,8 +2,244 @@
 title: Style Guide
 description: A guide to the custom markdown syntax that is available.
 ---
-This website has several custom markdown features that can be used to enhance project documentation. This page attempts
-to document most of these features.
+import {Tabs, TabItem, FileTree, Steps} from '@astrojs/starlight/components';
+
+This website uses an extended version of markdown for page content. These extensions are used to enhance project
+documentation. This page attempts to document most of these features. We recommend reading the
+[Markdown Syntax](https://www.markdownguide.org/basic-syntax/) and the
+[Starlight Guide](https://starlight.astro.build/guides/authoring-content/) guide in addition to this guide to fully
+master the format.
+
+## Asides
+Asides are used to draw the readers attention towards something. There are several types of asides which have a
+specific color, icon, and meaning.
+
+### Types
+- `note` - A useful note that the reader should keep in mind.
+- `tip` - A tip that can help the user out.
+- `caution` - A warning for the user that should help keep them going in the right direction.
+- `danger` - A strict warning for the user. This should be for things that could have serious consequences.
+
+### Examples
+```
+:::note[Optional Title]
+The contents of the aside.
+:::
+
+:::tip
+Asides can contain markdown elements as well.
+- like lists
+- **bold text**
+- [and links](https://docs.darkhax.net)
+:::
+
+:::caution
+Don't go overboard with asides and their contents. It may distract the user.
+:::
+
+:::danger
+Your documentation may be rejected if you abuse asides.
+:::
+```
+
+:::note[Optional Title]
+The contents of the aside.
+:::
+
+:::tip
+Asides can contain markdown elements as well.
+- like lists
+- **bold text**
+- [and links](https://docs.darkhax.net)
+:::
+
+:::caution
+Don't go overboard with asides and their contents. It may distract the user.
+:::
+
+:::danger
+Your documentation may be rejected if you abuse asides.
+:::
+
+## Blockquotes
+Quotes can be useful when you want to embed something that was said somewhere else without explicitly linking to it.
+They should not be used to warn the user or give the user examples. You should use asides and code blocks for that
+instead.
+
+### Examples
+```
+> Hello World
+>
+> You use a `>` to include text in the quote.
+```
+
+> Hello WorldYou use a `>` to include text in the quote.
+
+## Code Blocks
+Code blocks should be used to include examples for code, scripts, config files, data pack files, and anything else that
+is kind of code like. This site uses expressive code which greatly extends code blocks. Code blocks should **always**
+define a file name and language if possible, as this helps the user contextualize what they are reading.
+
+### Language
+````
+```js
+// Syntax highlighting requires a language to be set.
+// In this case we use js which means JavaScript.
+// Other formats like json, java, and yaml are also supported.
+const timer = 5
+```
+````
+```js
+// Syntax highlighting requires a language to be set.
+// In this case we use js which means JavaScript.
+// Other formats like json, java, and yaml are also supported.
+const timer = 5
+```
+
+### File Name
+The file name is set using the title. A file name should almost always be used, especially when referencing a datapack
+file. This will help users know where to find/put the files.
+````
+```json title="data/examplemod/tags/items/example.json"
+{
+  "replace": false,
+  "values": [
+    "minecraft:stick"
+  ]
+}
+```
+````
+```json title="data/examplemod/tags/items/example.json"
+{
+  "replace": false,
+  "values": [
+    "minecraft:stick"
+  ]
+}
+```
+
+### Line Highlights
+You can specify lines and ranges of lines to highlight. This should be done when you are referencing a specific property
+to help the user find it easier. You can also highlight additions and removals.
+
+````
+```json {4, 6-7} ins={8} del={9}
+{
+  "replace": false,
+  "values": [
+    "minecraft:stick",
+    "minecraft:apple",
+    "#minecraft:pickaxes",
+    "#minecraft:wool"
+    "minecraft:gold_ingot",
+    "minecraft:golden_ingot"
+  ]
+}
+```
+````
+```json {4, 6-7} ins={8} del={9}
+{
+  "replace": false,
+  "values": [
+    "minecraft:stick",
+    "minecraft:apple",
+    "#minecraft:pickaxes",
+    "#minecraft:wool",
+    "minecraft:gold_ingot",
+    "minecraft:golden_ingot"
+  ]
+}
+```
+
+## Tabs
+In some situations you may want to show alternative information based on a users selection. For example showing code for
+fabric vs forge. This can be done using tabs. The syntax for this is a bit complex but the results are worth it.
+
+````mdx
+<Tabs>
+    <TabItem label="Forge">
+        ```java
+        public boolean isModLoaded(String modId) {
+            return ModList.get().isLoaded(modId);
+        }
+        ```
+    </TabItem>
+    <TabItem label="Fabric">
+        ```java
+        public boolean isModLoaded(String modId) {
+            return FabricLoader.getInstance().isModLoaded(modId);
+        }
+        ```
+    </TabItem>
+</Tabs>
+````
+<Tabs>
+    <TabItem label="Forge">
+        ```java
+        public boolean isModLoaded(String modId) {
+            return ModList.get().isLoaded(modId);
+        }
+        ```
+    </TabItem>
+    <TabItem label="Fabric">
+        ```java
+        public boolean isModLoaded(String modId) {
+            return FabricLoader.getInstance().isModLoaded(modId);
+        }
+        ```
+    </TabItem>
+</Tabs>
+
+## File Tree
+File trees are an interesting way to drive home the location of a file.
+```
+<FileTree>
+    - data
+      - examplemod
+        - loot_tables/
+        - recipes/
+        - tags
+          - items
+            - **my_tag.json** The target file
+</FileTree>
+```
+<FileTree>
+    - data
+      - examplemod
+        - loot_tables/
+        - recipes/
+        - tags
+          - items
+            - **my_tag.json** The target file
+</FileTree>
+
+## Steps
+If a process involves a linked series of steps the steps feature should be used.
+```
+<Steps>
+1. Download the mod file from CurseForge.
+2. Place the file in your mods folder.
+    <FileTree>
+        - config/
+        - **mods/**
+        - resourcepacks/
+        - saves
+    </FileTree>
+3. Run the game!
+</Steps>
+```
+<Steps>
+    1. Download the mod file from CurseForge.
+    2. Place the file in your mods folder.
+        <FileTree>
+            - .minecraft
+                - config/
+                - **mods/**
+                - resourcepacks/
+                - saves
+        </FileTree>
+    3. Run the game!
+</Steps>
 
 ## CurseForge Project Embed
 
