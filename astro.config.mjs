@@ -6,25 +6,21 @@ import {cfProjectBanner} from "./src/lib/markdown/cf_project_banner.ts";
 import {cfProjectEmbed} from "./src/lib/markdown/cf_project_embed.ts";
 import tailwind from "@astrojs/tailwind";
 
-const gameVersion = '1.20.1';
-
 export default defineConfig({
-    site: `https://docs.darkhax.net/mc/${gameVersion}`,
-    base: `/${gameVersion}`,
-    outDir: `./dist/${gameVersion}`,
+    site: `https://docs.darkhax.net`,
     integrations: [starlight({
-        title: `Mod Docs | ${gameVersion}`,
+        title: `Mod Docs`,
         logo: {
             light: './src/assets/logo_light.svg',
             dark: './src/assets/logo_dark.svg'
         },
-        description: `The official home for documentation on Darkhax's ${gameVersion} mods.`,
+        description: `The official home for documentation on Darkhax's mods.`,
         social: {
             discord: 'https://discord.darkhax.net',
-            github: `https://github.com/Darkhax/docs.darkhax.net/tree/${gameVersion}`
+            github: `https://github.com/Darkhax-Minecraft`
         },
         editLink: {
-            baseUrl: `https://github.com/Darkhax-Minecraft/docs.darkhax.net/edit/${gameVersion}/`
+            baseUrl: `https://github.com/Darkhax-Minecraft/docs.darkhax.net/edit/main/`
         },
         pagination: false,
         customCss: [

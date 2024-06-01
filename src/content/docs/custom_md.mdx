@@ -1,6 +1,8 @@
 ---
 title: Style Guide
 description: A guide to the custom markdown syntax that is available.
+sidebar:
+  hidden: true
 ---
 import {Tabs, TabItem, FileTree, Steps} from '@astrojs/starlight/components';
 
@@ -325,3 +327,16 @@ To control the aspect ratio we're using the tailwind aspect ratio plugin.
 
 #### Vertical
 ::youtube[]{v=fGUdgi5TW0E vertical=true}
+
+## Custom Fonts
+We package some additional fonts that can be used in pages. These should be used sparingly and for demonstration
+purposes.
+
+```
+<div className={"runelic"}>
+    This text will use the Runelic font.
+</div>
+```
+<div className={"runelic"}>
+    This text will use the Runelic font.
+</div>

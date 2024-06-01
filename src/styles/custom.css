@@ -49,3 +49,7 @@
 .footer-link {
     @apply font-bold mx-2
 }
+
+.runelic {
+    font-family: Runelic;
+}
