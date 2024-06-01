@@ -33,6 +33,7 @@ export default defineConfig({
         expressiveCode: {
             plugins: [pluginCollapsibleSections()]
         },
+        lastUpdated: true,
         components: {
             Footer: './src/components/CustomFooter.astro',
         }
