@@ -14,9 +14,3 @@ Versioned branches like `1.20.1` contain a separate instance of the website that
 game version. These branches are deployed to `docs.darkhax.net/version_branch_name`, for example the `1.20.1` branch 
 should deploy to `docs.darkhax.net/1.20.1`. Versioned branches contain a modified copy of the starlight project from the 
 `main` branch.
-
-## TODO
-- Deploy the site on commit
-- Write all the 1.20.1 docs
-- Integrate Umami
-- Integrate ads/sponsors?

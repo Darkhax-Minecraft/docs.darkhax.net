@@ -1,1 +1,0 @@
-export const gameVersion = '1.20.4'
