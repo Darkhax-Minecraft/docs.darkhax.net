@@ -16,6 +16,17 @@ export default defineConfig({
     outDir: `${outDir}${gameVersion}`,
     integrations: [starlight({
         title: `Mod Docs | ${gameVersion}`,
+        head: [
+            {
+                tag: 'script',
+                attrs: {
+                    async: true,
+                    defer: true,
+                    'data-website-id': 'b3e2d6de-b61e-49bf-8ca1-e74e6ea2413b',
+                    src: 'https://nlytics.blmj.red/scrpt'
+                }
+            }
+        ],
         logo: {
             light: './src/assets/logo_light.svg',
             dark: './src/assets/logo_dark.svg'
