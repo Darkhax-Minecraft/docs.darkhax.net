@@ -1,6 +1,7 @@
 import type {Node, RootContent, Root} from 'mdast';
 import type {Plugin, Transformer} from 'unified';
 import type {CurseWidgetData, CurseWidgetMember} from "./types.ts";
+import {gameVersion} from '../../properties.ts'
 import {getProjectData} from './cf_widget.ts'
 import {
     isLeafDirective,
@@ -18,18 +19,6 @@ const defaultOptions = {
     projectId: "-1"
 }
 
-function buildAuthors(authors: CurseWidgetMember[]): Node[] {
-
-    let output = new Array<Node>();
-
-    authors.map((author, index) => {
-        output.push(link(`https://www.curseforge.com/members/${author.username.toLowerCase()}/projects`, author.username, `cf-project-banner-author cf-project-banner-role-${author.title.toLowerCase()}`))
-        output.push(text(index === (authors.length - 1) ? '.' : ', '))
-    })
-
-    return output;
-}
-
 function buildNode(project: CurseWidgetData): RootContent {
 
     return div({
@@ -44,10 +33,8 @@ function buildNode(project: CurseWidgetData): RootContent {
         paragraph('cf-project-banner-text',
             text("This documentation is for the "),
             link(project.urls.curseforge, project.title),
-            text(" mod! This mod is developed by "),
-            ...buildAuthors(project.members),
-            text(" You can download the mod "),
-            link(project.urls.curseforge, "here"),
+            text(" mod! You can download the mod "),
+            link(`${project.urls.curseforge}/files/all?version=${gameVersion}`, "here"),
             text(".")
         )
     )
