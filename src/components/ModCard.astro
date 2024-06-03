@@ -1,6 +1,6 @@
 ---
 import {getProjectData} from '../lib/markdown/cf_widget.ts'
-import {gameVersion} from "../content/config";
+import {gameVersion} from "../properties";
 interface Props {
     projectId: number
     ref: string
@@ -21,7 +21,7 @@ function truncate(str: string, maxLength: number): string {
 ---
 
 <div class="mod-card">
-    <a class="mod-card-link sl-flex" href=`${gameVersion}/${ref}`>
+    <a class="mod-card-link sl-flex" href={ref}>
         <img class="mod-card-img" src={project.thumbnail} alt=`Project logo for the ${project.title} mod.` width="84" height="84">
         <div class="mod-card-details">
             <p class="mod-card-title">{project.title}</p>

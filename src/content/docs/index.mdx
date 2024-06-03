@@ -5,19 +5,24 @@ sidebar:
   order: 0
 ---
 
-import { gameVersion } from '../config.ts'
+import { gameVersion } from '../../properties.ts'
+import ModCard from '../../components/ModCard.astro'
+import { CardGrid } from '@astrojs/starlight/components';
 
-Welcome to the official documentation for Darkhax's Minecraft **{gameVersion}** mods! If you are using a different
-version of Minecraft you should change your version [here](https://docs.darkhax.net). Every mod has its own section in
-the sidebar where you can find detailed guides and technical info to help you better understand and utilize the mod. On
-most devices the sidebar will be on the left side of your screen. Devices with smaller screens can find the sidebar by
-clicking the menu icon in the top right.
+Welcome to the official documentation for Darkhax's Minecraft **{gameVersion}** mods. If you are not using Minecraft
+{gameVersion} change your version [here](https://docs.darkhax.net). Get started by selecting a mod below or use the
+search bar!
 
-## Can't find a mod?
-This could be for one of the following reasons:
-- The mod has not been updated to this version of Minecraft yet. This section of the site only has mods that support
-  Minecraft {gameVersion}.
-- Only mods developed by [Darkhax](https://mods.darkhax.net) are documented here. If he is not a developer of the mod,
-  or is only a contributor, the mod likely won't be listed here.
-- We may not have gotten to it yet. While we aim to provide extensive and complete documentation it is important to
-  remember that these mods are provided for free and this website is operated by volunteers.
+## Mods
+:::note[Mod not here?]
+If a mod is not listed here it probably hasn't been documented yet. You can always ask for help or clarification on
+[discord](https://discord.darkhax.net).
+:::
+
+<CardGrid>
+    <ModCard projectId={228525} ref="bookshelf/intro/"/>
+    <ModCard projectId={492246} ref="bookshelf/intro/"/>
+    <ModCard projectId={862201} ref="bookshelf/intro/"/>
+    <ModCard projectId={250419} ref="bookshelf/intro/"/>
+    <ModCard projectId={377056} ref="bookshelf/intro/"/>
+</CardGrid>
