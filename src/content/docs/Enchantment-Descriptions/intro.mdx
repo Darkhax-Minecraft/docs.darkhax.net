@@ -1,0 +1,72 @@
+---
+title: Introduction
+description: An introduction to the Enchantment Descriptions mod for Minecraft.
+sidebar:
+  order: 0
+---
+import { FileTree } from '@astrojs/starlight/components';
+
+::cf-banner[]{p=250419}
+
+Enchantment Descriptions is a lightweight client side mod that demystifies enchantments by adding a description to the
+tooltip of an enchanted item. Most modded enchantments are also supported!
+
+![Enchantment descriptions being displayed on an enchanted sword.](https://docs.darkhax.net/assets/enchantment_descriptions/enchanted_item.png)
+
+## Localization
+Enchantment Descriptions is available in over 15 languages including Spanish, Chinese, Russian, and French! If you are
+fluent in another language and would like to help translate the mod to even more languages please check out our language
+file on [GitHub](https://github.com/Darkhax-Minecraft/Enchantment-Descriptions/blob/1.20.1/common/src/main/resources/assets/enchdesc/lang/en_us.json).
+
+## Configuration
+Enchantment descriptions will use the `enchdesc.json` file for configuration options. Like most mods, the config file
+can be found in your games config folder.
+
+:::note[Config File Generation]
+The config file will be generated in the **config** folder the first time you start the game **after** installing the
+mod. This is the standard way to generate a config file with default options. The config file is **NOT** inside the JAR
+file that you downloaded.
+:::
+
+<FileTree>
+    - .minecraft
+      - config
+        - **enchdesc.json**
+      - logs/
+      - mods/
+      - resourcepacks/
+      - saves/
+</FileTree>
+
+:::caution[Config Reloading]
+This config file can not be reloaded while the game is open. For changes to take effect you must close the game and
+launch it again. The `/reload` command and the `F3+T` keybind will not reload the file.
+:::
+
+### Options
+The `enchdesc.json` file is a simple text file that can be edited using notepad, nano, textedit, or any other text
+editor program. Inside the file you will see the following options.
+
+| Property                     | Default | Functionality                                                                 |
+|------------------------------|---------|-------------------------------------------------------------------------------|
+| enableMod                    | true    | Determines if the mod and its features are enabled or not.                    |
+| onlyDisplayOnBooks           | false   | When enabled, descriptions will only display on enchanted books.              |
+| onlyDisplayInEnchantingTable | false   | When enabled, descriptions will only display inside the enchanting table GUI. |
+| requireKeybindPress          | false   | When enabled, you must hold the crouch keybind down to see descriptions.      |
+| indentSize                   | 0       | The amount of spaces to indent descriptions by.                               |
+
+## Adding/Modifying Descriptions
+This mod uses Minecraft's built in language system to find descriptions. This allows mods and resource packs to easily
+add or modify descriptions without any code. Descriptions use a translation key that is based on the ID of the
+enchantment. The format is similar to the key used by Minecraft to define the enchantments name.
+
+The format is `enchantment.{namespace}.{path}.desc`. For example the `minecraft:sharpness` enchantment would use the
+localization key of `enchantment.minecraft.sharpness.desc`. You can find an example resource pack that does this
+[here](https://docs.darkhax.net/assets/enchantment_descriptions/Enchantment-Descriptions-Examples-1.0.0.zip). If you are
+a mod developer adding support in your own mod, you should use your mods pre-existing resource pack.
+
+:::tip[Modifying Descriptions]
+When replacing an existing description it is important to use the same namespace as the language file that is adding it.
+For example if you want to replace a built-in description you should use the assets/enchdesc/lang folder. This will
+reduce weird issues caused by the load order of the game.
+:::
