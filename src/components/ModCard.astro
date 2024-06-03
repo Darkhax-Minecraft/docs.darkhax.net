@@ -1,9 +1,8 @@
 ---
 import {getProjectData} from '../lib/markdown/cf_widget.ts'
-import {gameVersion} from "../properties";
 interface Props {
     projectId: number
-    ref: string
+    ref?: string
 }
 
 const { projectId, ref } = Astro.props;
@@ -21,7 +20,7 @@ function truncate(str: string, maxLength: number): string {
 ---
 
 <div class="mod-card">
-    <a class="mod-card-link sl-flex" href={ref}>
+    <a class="mod-card-link sl-flex" href={(ref) ? ref : project.urls.curseforge}>
         <img class="mod-card-img" src={project.thumbnail} alt=`Project logo for the ${project.title} mod.` width="84" height="84">
         <div class="mod-card-details">
             <p class="mod-card-title">{project.title}</p>
