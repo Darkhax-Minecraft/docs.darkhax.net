@@ -2,7 +2,7 @@
 title: Load Conditions
 description: Bookshelf load conditions allow JSON files in data packs and resource packs to be conditionally loaded.
 sidebar:
-  order: 3
+  order: 2
 ---
 ::cf-banner[]{p=228525}
 
@@ -17,7 +17,7 @@ array. If more than one condition is present all conditions must be met.
 
 The following example is of a shapeless crafting recipe that is only loaded if the `examplemod` has been loaded, 
 allowing the recipe to safely reference an item from the mod in the recipe.
-```json {2-9,13} title="data/example/recipes/dirt_to_diamonds.json"
+```json {2-7} title="data/example/recipes/dirt_to_diamonds.json"
 {
     "bookshelf:load_conditions": [
       {
@@ -153,61 +153,5 @@ create complex condition logic. If more than one condition is specified none of 
       "platform": "forge"
     }
   ]
-}
-```
-
-## Registering New Condition Types
-Mods may want to add new load condition types to cover cases that are not built-in. Bookshelf exposes a simple API to 
-add them! In this example we will create a condition that checks if a system property has been set. This guide assumes 
-you are familiar with Java and have already added Bookshelf to your development environment. You should also be familiar
-with Mojang's codec API.
-
-### Creating the Condition
-The first step is to create a class that implements `ILoadCondition`. This class is the type of condition object that 
-will be deserialized from the JSON data. You should also create a codec that can construct your condition.
-
-```java
-public record PropertyCondition(String propertyName) implements ILoadCondition {
-
-    public static Codec<PropertyCondition> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            Codec.STRING.fieldOf("property").forGetter(PropertyCondition::propertyName)
-    ).apply(instance, PropertyCondition::new));
-
-    @Override
-    public boolean allowLoading() {
-        return System.getProperty(this.propertyName()) != null;
-    }
-
-    @Override
-    public LoadConditions.ConditionType getType() {
-        // TODO Do this after registering.
-        return null;
-    }
-}
-```
-
-### Registering Condition Types
-Registering the condition type is very simple, just call `LoadConditions#register` when loading your mod. The ID used 
-here will be the type ID users will use in their JSON file. 3rd party projects should never use the `bookshelf` or 
-`minecraft` namespace for their conditions. The codec is the codec used to deserialize your condition. This method will
-return a `ConditionType` that you should assign to a static field. Your condition class should return this type from the
-`getType` method.
-
-```java
-public static ConditionType propertyConditionType;
-    
-public static void main() {
-    propertyConditionType = LoadConditions.register(new ResourceLocation("example", "property"), PropertyCondition.CODEC);
-}
-```
-
-### Referencing New Condition Types
-New condition types are referenced the same way built-in conditions are referenced. Simply use the type ID as the type 
-in JSON and then define the properties as specified by your codec.
-
-```json
-{
-  "type": "example:property",
-  "property": "special_packs_enabled"
 }
 ```

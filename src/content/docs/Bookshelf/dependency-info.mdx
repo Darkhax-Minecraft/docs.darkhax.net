@@ -2,13 +2,17 @@
 title: Dependency Info
 description: Information about adding Bookshelf to your project as a dependency.
 sidebar:
-  order: 2
+  order: 1
 ---
 ::cf-banner[]{p=228525}
 
+If you are a player, modpack dev, or datapack dev you can install Bookshelf as you would any other mod. If you plan to
+develop a new mod using Bookshelf you will need to add Bookshelf as a build dependency. This will add Bookshelf to your
+development environment and also give you access to sources and javadocs.
+
 ## Gradle Dependency
 This project is hosted on the BlameJared maven, you will need to add this repository to your Gradle configurations so it
-can find and download the necessary files. 
+can find and download the necessary files. Make sure to replace the platform, minecraft version, and mod version.
 
 ```groovy
 repositories {
@@ -18,7 +22,7 @@ repositories {
 }
 
 dependencies {
-    // Pick the one for your platform. Common is Mojmap with no modloadr.
+    // Pick the one for your platform. Common is Mojmap with no modloader.
     // implementation "net.darkhax.bookshelf:Bookshelf-Common-1.20.4:23.0.8"
     // implementation "net.darkhax.bookshelf:Bookshelf-Fabric-1.20.4:23.0.8"
     // implementation "net.darkhax.bookshelf:Bookshelf-Forge-1.20.4:23.0.8"

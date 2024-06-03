@@ -2,7 +2,7 @@
 title: Commands
 description: A guide to the types of commands added by Bookshelf.
 sidebar:
-  order: 1
+  order: 2
 ---
 ::cf-banner[]{p=228525}
 
