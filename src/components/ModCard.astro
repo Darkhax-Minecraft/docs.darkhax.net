@@ -1,0 +1,78 @@
+---
+import {getProjectData} from '../lib/markdown/cf_widget.ts'
+import {gameVersion} from "../content/config";
+interface Props {
+    projectId: number
+    ref: string
+}
+
+const { projectId, ref } = Astro.props;
+const project = await getProjectData(projectId);
+const summary =truncate(project.summary, 70)
+function truncate(str: string, maxLength: number): string {
+    if (str.length <= maxLength) {
+        return str
+    }
+    const truncatedLength = maxLength - 3
+    const lastSpaceIndex = str.lastIndexOf(' ', truncatedLength)
+    const endIndex = lastSpaceIndex === -1 ? truncatedLength : lastSpaceIndex
+    return str.slice(0, endIndex).replace(/[.,;!?\s]*$/, '') + '...'
+}
+---
+
+<div class="mod-card">
+    <a class="mod-card-link sl-flex" href=`${gameVersion}/${ref}`>
+        <img class="mod-card-img" src={project.thumbnail} alt=`Project logo for the ${project.title} mod.` width="84" height="84">
+        <div class="mod-card-details">
+            <p class="mod-card-title">{project.title}</p>
+            <p class="mod-card-summary">{summary}</p>
+        </div>
+    </a>
+</div>
+
+<style>
+    .mod-card {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 0.5rem;
+        border: 1px solid var(--sl-color-gray-5);
+        border-radius: 0.5rem;
+        padding: 1rem;
+        box-shadow: var(--sl-shadow-sm);
+        position: relative;
+    }
+
+    .mod-card-link {
+        gap: 1rem;
+        align-items: center;
+    }
+
+    a {
+        text-decoration: none;
+        line-height: var(--sl-line-height-headings);
+    }
+
+    a::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+    }
+
+    .mod-card-title {
+        font-weight: 600;
+        font-size: var(--sl-text-h5);
+        color: var(--sl-color-white);
+        line-height: var(--sl-line-height-headings);
+        gap: 1rem;
+        align-items: center;
+    }
+
+    .mod-card-summary {
+        color: var(--sl-color-gray-3);
+    }
+
+    .mod-card:hover {
+        background: var(--sl-color-gray-7, var(--sl-color-gray-6));
+        border-color: var(--sl-color-gray-2);
+    }
+</style>
