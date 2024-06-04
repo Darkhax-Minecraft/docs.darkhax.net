@@ -4,6 +4,7 @@ description: An introduction to the Enchantment Descriptions mod for Minecraft.
 sidebar:
   order: 0
 ---
+import { Link } from '../../../components/Components.js'
 import { FileTree } from '@astrojs/starlight/components';
 
 ::cf-banner[]{p=250419}
@@ -16,7 +17,7 @@ modded enchantments are also supported!
 ## Localization
 Enchantment Descriptions is available in over 15 languages including Spanish, Chinese, Russian, and French! If you are
 fluent in another language and would like to help translate the mod to even more languages please check out our language
-file on [GitHub](https://github.com/Darkhax-Minecraft/Enchantment-Descriptions/blob/1.20.1/common/src/main/resources/assets/enchdesc/lang/en_us.json).
+file on <Link title="GitHub" ref="https://github.com/Darkhax-Minecraft/Enchantment-Descriptions/blob/1.20.1/common/src/main/resources/assets/enchdesc/lang/en_us.json"/>.
 
 ## Configuration
 Enchantment descriptions will use the `enchdesc.json` file for configuration options. Like most mods, the config file
@@ -62,8 +63,8 @@ enchantment. The format is similar to the key used by Minecraft to define the en
 
 The format is `enchantment.{namespace}.{path}.desc`. For example the `minecraft:sharpness` enchantment would use the
 localization key of `enchantment.minecraft.sharpness.desc`. You can find an example resource pack that does this
-[here](https://docs.darkhax.net/assets/enchantment_descriptions/Enchantment-Descriptions-Examples-1.0.0.zip). If you are
-a mod developer adding support in your own mod, you should use your mods pre-existing resource pack.
+<Link text="here" ref="https://docs.darkhax.net/assets/enchantment_descriptions/Enchantment-Descriptions-Examples-1.0.0.zip"/>
+. If you are a mod developer adding support in your own mod, you should use your mods pre-existing resource pack.
 
 :::tip[Modifying Descriptions]
 When replacing an existing description it is important to use the same namespace as the language file that is adding it.

@@ -6,17 +6,17 @@ sidebar:
 ---
 
 import { gameVersion } from '../../properties.ts'
-import ModCard from '../../components/ModCard.astro'
+import { Link, ModCard } from '../../components/Components.ts'
 import { CardGrid } from '@astrojs/starlight/components';
 
 Welcome to the official documentation for Darkhax's Minecraft **{gameVersion}** mods. If you are not using Minecraft
-{gameVersion} change your version [here](https://docs.darkhax.net). Get started by selecting a mod below or use the
-search bar!
+{gameVersion} change your version <Link title="here" link="https://docs.darkhax.net"/>. Get started by selecting a mod
+below or use the search bar!
 
 ## Mods
 :::note[Mod not here?]
 If a mod is not listed here it probably hasn't been documented yet. You can always ask for help or clarification on
-[discord](https://discord.darkhax.net).
+<Link title="Discord" link="https://discord.darkhax.net"/>.
 :::
 
 <CardGrid>
