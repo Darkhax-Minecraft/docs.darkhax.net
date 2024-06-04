@@ -39,7 +39,7 @@ export default defineConfig({
         description: `The official home for documentation on Darkhax's ${gameVersion} mods.`,
         social: {
             discord: 'https://discord.darkhax.net',
-            github: `https://github.com/Darkhax/docs.darkhax.net/tree/${gameVersion}`
+            github: `https://github.com/Darkhax-Minecraft`
         },
         editLink: {
             baseUrl: `https://github.com/Darkhax-Minecraft/docs.darkhax.net/edit/${gameVersion}/`
