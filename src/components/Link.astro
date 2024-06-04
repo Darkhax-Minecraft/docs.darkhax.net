@@ -1,0 +1,14 @@
+---
+import {gameVersion} from "../properties";
+
+interface Props {
+    text: string
+    ref: string
+}
+
+const { text, ref } = Astro.props;
+const relative = ref.startsWith("/")
+const internal = !ref.startsWith("http")
+const targetUrl = relative ? `/${gameVersion}${ref}` : ref;
+---
+{internal ? <a href={targetUrl}>{text}</a> : <a href={targetUrl} target="_blnak" rel="noopener noreferrer">{text}</a> }
