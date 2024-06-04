@@ -21,20 +21,25 @@ const defaultOptions = {
 
 function buildNode(project: CurseWidgetData): RootContent {
 
+    const externalLinkAttributes = {
+        target: '_blank',
+        rel: 'noopener noreferrer'
+    }
+
     return div({
             class: 'cf-project-banner',
             'data-pagefind-ignore': true
         },
-        hyperlink(project.urls.curseforge, {}, img(project.thumbnail, project.summary, {
+        hyperlink(project.urls.curseforge, externalLinkAttributes, img(project.thumbnail, project.summary, {
             class: 'cf-project-banner-logo',
             width: '128px',
             height: '128px'
         })),
         paragraph('cf-project-banner-text',
             text("This documentation is for the "),
-            link(project.urls.curseforge, project.title),
+            link(project.urls.curseforge, project.title, externalLinkAttributes),
             text(" mod! You can download the mod "),
-            link(`${project.urls.curseforge}/files/all?version=${gameVersion}`, "here"),
+            link(`${project.urls.curseforge}/files/all?version=${gameVersion}`, "here", externalLinkAttributes),
             text(".")
         )
     )
