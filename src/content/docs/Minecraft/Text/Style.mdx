@@ -1,0 +1,50 @@
+---
+title: Style
+description: Documents the Style data type in Minecraft.
+---
+import {Link, CardGrid, ModCard} from '../../../../components/Components.js'
+
+Styles allow you to customize how a piece of text appears in game. They allow you to change the color, font, and many
+other properties of the text.
+
+## Properties
+| Property      | Example              | Description                                                                                                                                             |
+|---------------|----------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| color         | #FF00FF or dark_blue | Sets the color of the text. Supports a hex code or a <Link ref="/minecraft/text/textcolor">TextColor</Link>.                                            |
+| bold          | true                 | Makes the text bold like **this**.                                                                                                                      |
+| italic        | true                 | Makes the text italicized like *this*.                                                                                                                  |
+| underlined    | true                 | Adds an underline or underscore to the text.                                                                                                            |
+| strikethrough | true                 | Adds a strike through the center of the text.                                                                                                           |
+| obfuscated    | trucate              | Makes the text cycle through different characters quickly, making it nearly unreadable.                                                                 |
+| insertion     | Hello world!         | An optional piece of text that is inserted into the players chat window when the text is shift clicked. Only works in some contexts like chat messages. |
+| font          | minecraft:alt        | Renders the text using an alternative font. Supports vanilla fonts and ones added by mods.                                                              |
+
+### Example JSON
+```json
+{
+  "color": "#0d9488",
+  "bold": true,
+  "italic": true,
+  "underlined": true,
+  "strikethrough": true,
+  "obfuscated": true,
+  "insertion": "Hello world!",
+  "font": "minecraft:alt"
+}
+```
+## Fonts
+
+### Vanilla Fonts
+- `minecraft:default` - The standard minecraft font.
+- `minecraft:alt` - The enchantment font, also known as the standard galactic alphabet (SGA).
+- `minecraft:illageralt` - The font used by Illagers in the spin-off game Minecraft Dungeons.
+
+### Modded Fonts
+The following mods all add new fonts to the game that are compatible with Minecraft styles. Their unique font IDs can be
+found on their mod pages.
+
+<CardGrid>
+    <ModCard projectId={393149}/>
+    <ModCard projectId={396234}/>
+    <ModCard projectId={965978}/>
+</CardGrid>
