@@ -3,11 +3,10 @@ import {gameVersion} from "../properties";
 
 interface Props {
     className?: string
-    text: string
     ref: string
 }
 
-const { className, text, ref } = Astro.props;
+const { className, ref } = Astro.props;
 const relative = ref.startsWith("/")
 const internal = !ref.startsWith("http")
 const targetUrl = relative ? `/${gameVersion}${ref}` : ref
