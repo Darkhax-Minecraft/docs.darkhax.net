@@ -8,7 +8,22 @@ import tailwind from "@astrojs/tailwind";
 import {env} from "node:process"
 
 const outDir = env.outDir || "./dist/"
+const isProd = import.meta.env.PROD;
 const gameVersion = '1.20.1';
+
+const headEntries = [];
+
+if (isProd) {
+    headEntries.push({
+        tag: 'script',
+        attrs: {
+            async: true,
+            defer: true,
+            'data-website-id': 'b3e2d6de-b61e-49bf-8ca1-e74e6ea2413b',
+            src: 'https://nlytics.blmj.red/scrpt'
+        }
+    })
+}
 
 export default defineConfig({
     site: `https://docs.darkhax.net/${gameVersion}`,
@@ -16,17 +31,7 @@ export default defineConfig({
     outDir: `${outDir}${gameVersion}`,
     integrations: [starlight({
         title: `Mod Docs | ${gameVersion}`,
-        head: [
-            {
-                tag: 'script',
-                attrs: {
-                    async: true,
-                    defer: true,
-                    'data-website-id': 'b3e2d6de-b61e-49bf-8ca1-e74e6ea2413b',
-                    src: 'https://nlytics.blmj.red/scrpt'
-                }
-            }
-        ],
+        head: headEntries,
         logo: {
             light: './src/assets/logo_light.svg',
             dark: './src/assets/logo_dark.svg'
