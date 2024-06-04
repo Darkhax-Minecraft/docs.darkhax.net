@@ -2,13 +2,15 @@
 import {gameVersion} from "../properties";
 
 interface Props {
+    className?: string
     text: string
     ref: string
 }
 
-const { text, ref } = Astro.props;
+const { className, text, ref } = Astro.props;
 const relative = ref.startsWith("/")
 const internal = !ref.startsWith("http")
-const targetUrl = relative ? `/${gameVersion}${ref}` : ref;
+const targetUrl = relative ? `/${gameVersion}${ref}` : ref
+const classNames = (className) ? className : ""
 ---
-{internal ? <a href={targetUrl}>{text}</a> : <a href={targetUrl} target="_blnak" rel="noopener noreferrer">{text}</a> }
+{internal ? <a class={classNames} href={targetUrl}><slot/></a> : <a class={classNames} href={targetUrl} target="_blnak" rel="noopener noreferrer"><slot/></a> }
