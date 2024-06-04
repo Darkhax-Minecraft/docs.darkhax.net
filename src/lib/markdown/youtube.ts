@@ -1,6 +1,4 @@
-import type {AstroConfig, AstroUserConfig} from 'astro';
-
-import type {Node, Paragraph as P, Parent, Root} from 'mdast';
+import type {Root} from 'mdast';
 import type {Plugin, Transformer} from 'unified';
 import {visit} from 'unist-util-visit';
 import {isDirective, isLeafDirective, div, iframe} from "./md-utils.ts";
