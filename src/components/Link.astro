@@ -1,0 +1,11 @@
+---
+interface Props {
+    className?: string
+    ref: string
+}
+
+const { className, ref } = Astro.props;
+const internal = !ref.startsWith("http")
+const classNames = (className) ? className : ""
+---
+{internal ? <a class={classNames} href={ref}><slot/></a> : <a class={classNames} href={ref} target="_blnak" rel="noopener noreferrer"><slot/></a> }

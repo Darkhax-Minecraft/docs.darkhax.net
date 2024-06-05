@@ -4,27 +4,33 @@ import {pluginCollapsibleSections} from '@expressive-code/plugin-collapsible-sec
 import {youtubeDirective} from './src/lib/markdown/youtube.ts';
 import {cfProjectBanner} from "./src/lib/markdown/cf_project_banner.ts";
 import {cfProjectEmbed} from "./src/lib/markdown/cf_project_embed.ts";
+import {betterLink} from "./src/lib/markdown/links.ts";
 import tailwind from "@astrojs/tailwind";
 import {env} from "node:process"
 
 const outDir = env.outDir || "./dist/"
+const isProd = import.meta.env.PROD;
+
+const headEntries = [];
+
+if (isProd) {
+    headEntries.push({
+        tag: 'script',
+        attrs: {
+            async: true,
+            defer: true,
+            'data-website-id': 'b3e2d6de-b61e-49bf-8ca1-e74e6ea2413b',
+            src: 'https://nlytics.blmj.red/scrpt'
+        }
+    })
+}
 
 export default defineConfig({
     site: `https://docs.darkhax.net`,
     outDir: `${outDir}root`,
     integrations: [starlight({
         title: `Mod Docs`,
-        head: [
-            {
-                tag: 'script',
-                attrs: {
-                    async: true,
-                    defer: true,
-                    'data-website-id': 'b3e2d6de-b61e-49bf-8ca1-e74e6ea2413b',
-                    src: 'https://nlytics.blmj.red/scrpt'
-                }
-            }
-        ],
+        head: headEntries,
         logo: {
             light: './src/assets/logo_light.svg',
             dark: './src/assets/logo_dark.svg'
@@ -52,6 +58,6 @@ export default defineConfig({
         }
     }), tailwind()],
     markdown: {
-        remarkPlugins: [youtubeDirective(), cfProjectBanner(), cfProjectEmbed()]
+        remarkPlugins: [youtubeDirective(), cfProjectBanner(), cfProjectEmbed(), betterLink()]
     }
 });

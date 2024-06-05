@@ -1,5 +1,6 @@
 ---
 import {getProjectData} from '../lib/markdown/cf_widget.ts'
+import {Link} from '../components/Components.ts'
 interface Props {
     projectId: number
     ref?: string
@@ -20,13 +21,13 @@ function truncate(str: string, maxLength: number): string {
 ---
 
 <div class="mod-card">
-    <a class="mod-card-link sl-flex" href={(ref) ? ref : project.urls.curseforge}>
+    <Link className="mod-card-link sl-flex" ref={(ref) ? ref : project.urls.curseforge}>
         <img class="mod-card-img" src={project.thumbnail} alt=`Project logo for the ${project.title} mod.` width="84" height="84">
         <div class="mod-card-details">
             <p class="mod-card-title">{project.title}</p>
             <p class="mod-card-summary">{summary}</p>
         </div>
-    </a>
+    </Link>
 </div>
 
 <style>

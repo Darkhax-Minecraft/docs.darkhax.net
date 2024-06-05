@@ -1,5 +1,5 @@
 import {h as _h, s as _s, type Properties as HastProps} from 'hastscript';
-import type {Node, Paragraph as P, Heading as H, Text, Image, Html, Link, Parent, Root} from 'mdast';
+import type {Node, Paragraph as P, Heading as H, Text, Image, Link, Parent, Root} from 'mdast';
 import type {Properties} from 'hast';
 import type {Directives, TextDirective, LeafDirective, ContainerDirective} from 'mdast-util-directive';
 import {visit} from 'unist-util-visit';
