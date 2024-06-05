@@ -4,6 +4,7 @@ import {pluginCollapsibleSections} from '@expressive-code/plugin-collapsible-sec
 import {youtubeDirective} from './src/lib/markdown/youtube.ts';
 import {cfProjectBanner} from "./src/lib/markdown/cf_project_banner.ts";
 import {cfProjectEmbed} from "./src/lib/markdown/cf_project_embed.ts";
+import {betterLink} from "./src/lib/markdown/links.ts";
 import tailwind from "@astrojs/tailwind";
 import {env} from "node:process"
 
@@ -59,6 +60,6 @@ export default defineConfig({
         }
     }), tailwind()],
     markdown: {
-        remarkPlugins: [youtubeDirective(), cfProjectBanner(), cfProjectEmbed()]
+        remarkPlugins: [youtubeDirective(), cfProjectBanner(), cfProjectEmbed(), betterLink()]
     }
 });
