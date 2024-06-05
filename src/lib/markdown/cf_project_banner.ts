@@ -18,36 +18,27 @@ const defaultOptions = {
     projectId: "-1"
 }
 
-function buildAuthors(authors: CurseWidgetMember[]): Node[] {
-
-    let output = new Array<Node>();
-
-    authors.map((author, index) => {
-        output.push(link(`https://www.curseforge.com/members/${author.username.toLowerCase()}/projects`, author.username, `cf-project-banner-author cf-project-banner-role-${author.title.toLowerCase()}`))
-        output.push(text(index === (authors.length - 1) ? '.' : ', '))
-    })
-
-    return output;
-}
-
 function buildNode(project: CurseWidgetData): RootContent {
+
+    const externalLinkAttributes = {
+        target: '_blank',
+        rel: 'noopener noreferrer'
+    }
 
     return div({
             class: 'cf-project-banner',
             'data-pagefind-ignore': true
         },
-        hyperlink(project.urls.curseforge, {}, img(project.thumbnail, project.summary, {
+        hyperlink(project.urls.curseforge, externalLinkAttributes, img(project.thumbnail, project.summary, {
             class: 'cf-project-banner-logo',
             width: '128px',
             height: '128px'
         })),
         paragraph('cf-project-banner-text',
             text("This documentation is for the "),
-            link(project.urls.curseforge, project.title),
-            text(" mod! This mod is developed by "),
-            ...buildAuthors(project.members),
-            text(" You can download the mod "),
-            link(project.urls.curseforge, "here"),
+            link(project.urls.curseforge, project.title, externalLinkAttributes),
+            text(" mod! You can download the mod "),
+            link(project.urls.curseforge, "here", externalLinkAttributes),
             text(".")
         )
     )
