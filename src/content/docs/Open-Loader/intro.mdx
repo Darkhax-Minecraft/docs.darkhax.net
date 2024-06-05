@@ -1,0 +1,195 @@
+---
+title: Introduction
+description: Documentation for the Open Loader mod for Minecraft 1.20.1.
+sidebar:
+  order: 0
+---
+import { FileTree } from '../../../components/Components.ts'
+
+::cf-banner[]{p=354339}
+
+Open Loader is a utility mod that makes it easier to load data packs and resource packs automatically across all saves
+for a given game instance. This mod can be used by mod packs and servers to define custom recipes and other features for
+a wide range of mods. It can also be used to change textures, override tooltips, and change other aspects of the game.
+
+## Data Packs
+Data packs are a vanilla Minecraft feature that allows you to add and modify game data. Data packs are used for recipes,
+loot tables, world gen, and many other game mechanics. Many mods also use data from data packs for their custom recipe
+types and other mechanics. Normally data packs are installed per-world and are not enabled by default making them
+difficult to use in mod packs. Open Loader solves this issue by allowing the game to load data packs from a specified
+folder on all worlds.
+
+### Data Folder
+Open Loader will load data packs from the `/config/openloader/data` folder. This folder will be generated for you the
+first time you run the game **after** installing the mod. Open Loader can load `.zip` archive packs and folder packs. An
+example data pack can be downloaded [here](https://docs.darkhax.net/assets/open-loader/datapack-1.0.0.zip).
+
+<FileTree>
+    - .minecraft
+      - config
+        - openloader
+          - **data**
+            - my-archive-pack.zip
+            - my-folder-pack
+              - data/
+              - pack.png
+              - pack.mcmeta
+          - resources/
+      - logs/
+      - mods/
+      - resourcepacks/
+      - saves/
+</FileTree>
+
+## Resource Packs
+Resource packs are a vanilla Minecraft feature that allows you to add and modify game resources. Resource packs are used
+for textures, sounds, models, fonts, and other game mechanics. Many mods also use resource packs for modded resources
+like skins and overlays. Normally resource packs are installed from the `resourcepacks` folder but Minecraft will not
+load them by default. Open Loader solves this issue by forcefully enabling resource packs that are loaded from its own
+folder.
+
+### Resources Folder
+Open Loader will load resource packs from the `/config/openloader/resources` folder. This folder will be generated for
+you the first time you run the game **after** installing the mod. Open Loader can load `.zip` archive packs and folder
+packs. An example resource pack can be downloaded [here](https://docs.darkhax.net/assets/open-loader/resourcepack-1.0.0.zip).
+
+<FileTree>
+    - .minecraft
+      - config
+        - openloader
+          - data/
+          - **resources**
+            - my-archive-pack.zip
+            - my-folder-pack
+              - data/
+              - pack.png
+              - pack.mcmeta
+      - logs/
+      - mods/
+      - resourcepacks/
+      - saves/
+</FileTree>
+
+## Configuration
+Open Loader should work fine out of the box, however there are several config options that can be useful in special
+situations. Open Loader reads config options from the `config/openloader/advanced_options.json` file.
+
+:::note[Config File Generation]
+The config file will be generated in the **config** folder the first time you start the game **after** installing the
+mod. This is the standard way to generate a config file with default options. The config file is **NOT** inside the JAR
+file that you downloaded.
+:::
+
+<FileTree>
+    - .minecraft
+      - config
+        - openloader
+          - **advanced_options.json**
+      - logs/
+      - mods/
+      - resourcepacks/
+      - saves/
+</FileTree>
+
+:::caution[Config Reloading]
+This config file can not be reloaded while the game is open. For changes to take effect you must close the game and
+launch it again. The `/reload` command and the `F3+T` keybind will not reload the file.
+:::
+
+### Options
+The `advanced_options.json` file is a simple text file that can be edited using any text editor like notepad, nano, or
+textedit. Inside the file you will find the following options.
+
+```json
+{
+  "resourcePacks": {
+    "enabled": true,
+    "additionalFolders": []
+  },
+  "dataPacks": {
+    "enabled": true,
+    "additionalFolders": []
+  }
+}
+```
+
+By default Open Loader will try to load data packs and resource packs. You can prevent Open Loader from loading a type
+of pack by setting the `enabled` option to `false`.
+
+The `additionalFolders` option allows you to define new folders for Open Loader to search. These folders will be
+searched in addition to the built-in `data` and `resources` folder. By default paths will be relative to the game
+directory. A non-relative path can be defined by including the full path name, including the drive letter.
+
+#### Relative Example
+If you add `"custom_packs"` to the `additionalFolders` section Open Loader will try to load packs from the
+`custom_packs` folder inside of your game instance folder. Relative paths can be especially useful when you can't
+control where the pack is. For example CurseForge mod packs download data packs to the `resourcepacks` folder and this
+can not be changed. You can still load these packs by adding `"resourcepacks"` to the `additionalFolders` option.
+
+```json {4, 8}
+{
+  "resourcePacks": {
+    "enabled": true,
+    "additionalFolders": ["custom_packs"]
+  },
+  "dataPacks": {
+    "enabled": true,
+    "additionalFolders": ["resourcepacks"]
+  }
+}
+```
+
+<FileTree>
+    - .minecraft
+      - config/
+      - **custom_packs/**
+        - your_pack.zip
+      - logs/
+      - mods/
+      - **resourcepacks/**
+        - curseforge_pack.zip
+      - saves/
+</FileTree>
+
+#### Absolute Path Examples
+If you want to load packs from a specific location on your computer you can use an absolute path. For example you may
+want to store all your data packs in your Windows `Documents` folder and load them in several different Minecraft
+profiles. This can be done by adding the full path to `additionalFolders`. For example
+`"C:\Users\My Windows Account\Documents\My Packs"` will load packs from the `My Packs` folder in your Windows documents.
+
+```json
+{
+  "resourcePacks": {
+    "enabled": true,
+    "additionalFolders": ["C:/Users/My Windows Account/Documents/My Packs"]
+  },
+  "dataPacks": {
+    "enabled": true,
+    "additionalFolders": []
+  }
+}
+```
+
+## FaQ
+
+### Does this support mods like Patchouli or Botany Pots?
+Yes, packs loaded by this mod will behave exactly like packs loaded through the vanilla system. Anything that works with
+the vanilla pack folders should also work with Open Loader folders.
+
+### My pack isn't loading?
+If your pack is not loading it is because you have placed the pack in the wrong folder or your pack is invalid. Please
+download the example [data pack](https://docs.darkhax.net/assets/open-loader/datapack-1.0.0.zip) or
+[resource pack](https://docs.darkhax.net/assets/open-loader/resourcepack-1.0.0.zip) and try to load it. If the pack is
+not loaded you are using the wrong folder. If it does load, the pack you made was invalid. Make sure you have included a
+`pack.mcmeta` file and check the log file for any errors related to your pack.
+
+### How does load order work?
+When a new pack is loaded by Open Loader it will be loaded after vanilla and modded packs. Once a pack has been loaded
+Minecraft will lock the load order for future runs in order to maintain the stability of your world. This means that any
+new mods or packs installed at a later date will load on top of your Open Loader packs. To avoid this issue I recommend
+changing the name of your packs every time you update your mod pack.
+
+### I don't get the resources when I join the server?
+Open Loader and the packs you want to load must be installed on the client. Open Loader will not sync data to the client
+for you. This is not what the mod is intended for. The vanilla game already has a system to prompt players to download a
+resource pack when they join your server, you should use that instead.
