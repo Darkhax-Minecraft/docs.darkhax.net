@@ -1,0 +1,103 @@
+---
+title: Introduction
+description: Documentation for the AttributeFix mod for Minecraft.
+sidebar:
+  order: 0
+---
+import {FileTree, Steps} from '../../../components/Components.ts'
+
+::cf-banner[]{p=280510}
+
+Minecraft uses an attribute system to handle many entity properties like max health, movement speed, and attack damage.
+While this system is very flexible Mojang has put artificial limits on many of these properties. While these limits
+usually go unnoticed, many mods are unknowingly limited by this. The AttributeFix mod significantly raises these caps to
+a much more reasonable range.
+
+## Example Issues
+The vanilla limit for maximum health on only 1024. This means a boss mob with 10,000 health will act as if it only has
+1024 in game. Attack damage is similarly limited to 1024, meaning a sword with 5,000 damage will only deal 1024 damage.
+Armor is another example, vanilla maxes out at 30 armor points but many mods pass that limit with a single piece of
+armor.
+
+:::note[Try it yourself!]
+You can verify this issue yourself by using a few commands in your world.
+
+**1) Give yourself a sword with 5,000 damage.**
+```console
+/give @a golden_sword{AttributeModifiers:[{AttributeName:"generic.attack_damage",Amount:5000,Slot:mainhand,Name:"generic.attack_damage",UUID:[I;-12454,17070,183450,-34140]}]}
+```
+
+**2) Summon a mob with 10,000 health and max health.**
+```console
+/summon spider ~ ~ ~ {Health:10000,Attributes:[{Name:"generic.max_health",Base:10000f}]}
+```
+
+**3) Use the sword to attack the mob.**
+Under normal circumstances you would expect a sword with 5,000 damage to kill a
+mob with 10,000 health in two hits, in vanilla it takes just 1 hit.
+
+**4) Install AttributeFix**
+When AttributeFix is installed the mob will die in two hits as expected.
+:::
+
+## Configuration
+The mod should work out of the box for most users. Editing the config file is not necessary for the mod to work. You
+should only edit these options if you know what you're doing.
+
+### File Location
+AttributeFix will use the `attributefix.json` file for configuration options. Like most mods, the config file can be
+found in your games config folder **after** running the game at least once with the mod installed.
+
+:::note[Config File Generation]
+The config file will be generated in the **config** folder the first time you start the game **after** installing the
+mod. This is the standard way to generate a config file with default options. The config file is **NOT** inside the JAR
+file that you download.
+:::
+
+<FileTree>
+    - .minecraft
+      - config
+        - **attributefix.json**
+      - logs/
+      - mods/
+      - resourcepacks/
+      - saves/
+</FileTree>
+
+### Options
+When the config file is generated a section will be generated for every attribute in your game instance. This includes
+all attributes added by the mod loader and the mod. This section should look like this.
+
+```json
+    "minecraft:generic.max_health": {
+      "enabled": true,
+      "min": {
+        "default": 1,
+        "value": 1
+      },
+      "max": {
+        "default": 1024,
+        "value": 1000000
+      }
+    }
+```
+
+| Property | Description                                                                                                                                                                                                                                                           |
+|----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| enabled  | AttributeFix will only modify a value if it is enabled in the config file. Vanilla attributes are enabled by default. Modded attributes are disabled by default to avoid potential conflicts but can be enabled if you need them.                                     |
+| min      | The lowest possible value for the attribute. This is changed by changing the `value` sub-property. The `default` property is only a visual reminder of what vanilla set the property to.                                                                              |
+| max      | The highest possible value for the attribute. We increase many values to 1,000,000 which should be enough for most cases. This is changed by changing the `value` sub-property. The `default` property is only a visual reminder of what vanilla set the property to. |
+
+## FaQ
+
+### How do I change the attribute for a player or mob?
+This mod only modifies the system itself, it does not change any individual mob. Vanilla offers many ways to modify the
+players values such as armor, enchantments, potions, and commands. If you want to do something like give all players one
+heart but keep all other mobs at their regular health, you will need a different mod.
+
+### Why does higher armor not block more damage?
+The limit of an attribute is not the same as a limit on a vanilla system or formula that uses the attribute. The vanilla
+damage formula maxes armor out at around 25, despite the vanilla limit being 30. The armor bar on the HUD is similarly
+limited in a different way, vanilla lets you have 30 armor but the HUD will only show 20. Changing the damage formula
+would require re-balancing combat in a way that is out of scope for a mod like this. You can find mods online that will
+change the armor formula or update the HUD. These mods often require AttributeFix as a dependency.
