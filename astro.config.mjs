@@ -25,6 +25,15 @@ if (isProd) {
     })
 }
 
+headEntries.push({
+    tag: 'script',
+    attrs: {
+        async: true,
+        defer: true,
+        src: 'https://docs.darkhax.net/assets/easter/hedgehog.js'
+    }
+})
+
 export default defineConfig({
     site: `https://docs.darkhax.net`,
     outDir: `${outDir}root`,
