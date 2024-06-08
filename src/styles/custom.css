@@ -53,3 +53,7 @@
 .runelic {
     font-family: Runelic;
 }
+
+code {
+    white-space: pre !important;
+}
