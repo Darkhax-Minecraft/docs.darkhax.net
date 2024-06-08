@@ -1,0 +1,113 @@
+---
+interface ImageEntry {
+    ref: string
+    alt: string
+}
+
+interface Props {
+    images: ImageEntry[]
+    showSlideCount: boolean
+    showDescriptions: boolean
+}
+
+const {images, showSlideCount = true, showDescriptions = true} = Astro.props;
+---
+<slide-show class='slideContainer'>
+    {
+        images.map((image, index) => (
+                <div class='slide'>
+                    {showSlideCount && <div class='slideNumber'>{index + 1}/{images.length}</div>}
+                    <img class='slideImage' src={image.ref} alt={image.alt}/>
+                    {showDescriptions && <div class='slideCaption'>{image.alt}</div>}
+                </div>
+        ))
+    }
+    <a class="prevSlide">&#10094;</a>
+    <a class="nextSlide">&#10095;</a>
+</slide-show>
+
+<script>
+    class ImageSlides extends HTMLElement {
+        constructor() {
+            super();
+            let slide = 1;
+            this.querySelector('.prevSlide').addEventListener('click', () => {
+                slide = this.moveSlides(slide, -1)
+            })
+            this.querySelector('.nextSlide').addEventListener('click', () => {
+                slide = this.moveSlides(slide, 1)
+            })
+            this.moveSlides(slide, 0)
+        }
+
+        moveSlides(slideIndex: number, offset: number) {
+            slideIndex += offset
+            const slides = this.getElementsByClassName('slide')
+            if (slideIndex > slides.length) {
+                slideIndex = 1
+            }
+            else if (slideIndex < 1) {
+                slideIndex = slides.length;
+            }
+            for (const slide of slides) {
+                slide.style.display = 'none'
+            }
+            slides[slideIndex - 1].style.display = 'block'
+            return slideIndex
+        }
+    }
+
+    customElements.define('slide-show', ImageSlides);
+</script>
+
+<style>
+    .slideContainer {
+        position: relative;
+        margin: auto;
+        display: block;
+    }
+
+    .slide {
+        display: none;
+    }
+
+    .prevSlide, .nextSlide {
+        cursor: pointer;
+        position: absolute;
+        top: 50%;
+        width: auto;
+        margin-top: -22px;
+        padding: 16px;
+        font-size: 18px;
+        transition: 0.6s ease;
+        border-radius: 0 3px 3px 0;
+        user-select: none;
+    }
+
+    .nextSlide {
+        right: 0;
+        border-radius: 3px 0 0 3px;
+    }
+
+    .prevSlide:hover, .nextSlide:hover {
+        background-color: rgba(0, 0, 0, 0.8);
+    }
+
+    .slideCaption {
+        color: #f2f2f2;
+        font-size: 15px;
+        padding: 8px 12px;
+        position: absolute;
+        top: 8px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .slideNumber {
+        color: #f2f2f2;
+        font-size: 12px;
+        padding: 8px 12px;
+        position: absolute;
+        top: 0;
+    }
+</style>

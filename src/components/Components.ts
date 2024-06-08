@@ -6,3 +6,5 @@ export * from '@astrojs/starlight/components'
 export { default as ModCard } from './ModCard.astro';
 // @ts-ignore
 export { default as Link } from './Link.astro';
+// @ts-ignore
+export { default as Slideshow } from './Slideshow.astro';
