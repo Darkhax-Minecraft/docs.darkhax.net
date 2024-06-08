@@ -1,0 +1,168 @@
+---
+title: Resource Locations
+description: An explanation of Minecraft resource locations.
+---
+import { Icon } from '../../../../../components/Components.ts'
+
+Minecraft uses resource locations to identify and organize game objects. They are sometimes called namespaced
+identifiers or just identifiers. If you have seen an ID like `minecraft:dirt` you have already seen a resource location.
+
+## Structure
+Resource locations have two parts that are separated using a colon `:`. The first half is called the **namespace**. The
+namespace is the source of the resource. The second half is the path, which is the resource itself. Here are a few
+examples breaking down resource locations.
+
+- `minecraft:dirt` - An entry called `dirt` that is added by `minecraft`.
+- `create:zinc_ingot` - An entry called `zinc_ingot` that is added by `create`.
+- `tipsmod:smoke_bees` - An entry called `smoke_bees` that is added by `tipsmod`.
+
+:::tip[Choosing a Namespace]
+When you are adding a new resource you should always use your own namespace instead of the `minecraft` namespace or the
+namespace of another mod. This will avoid confusion and potential ID conflicts. If you want to replace or expand a
+resource you should use the same namespace and path as the target resource.
+:::
+
+## Valid Characters
+Resource locations can only contain the following characters. Using an invalid character in your resource location will
+prevent your resource from loading or being used.
+
+- Lowercase latin alphabet - `abcdefghijklmnopqrstuvwxyz`
+- Numbers - `0123456789`
+- Underscore - `_`
+- Hyphen - `-`
+- Period - `.`
+
+The path may also use a forward slash (`/`). The forward slash is **not** valid for namespaces.
+
+:::caution[Invalid Characters]
+Using invalid characters is the most common issue people experience with resource locations. You can **NOT** use spaces,
+upper case letters, or non-latin letters. These are strict limitations imposed by Minecraft.
+:::
+
+### Examples
+<table>
+    <tr>
+        <th>Resource Location</th>
+        <th>Validity</th>
+        <th>Explanation</th>
+    </tr>
+    <tr>
+        <td>
+            ```text ins="minecraft:dirt"
+            minecraft:dirt
+            ```
+        </td>
+        <td>
+            <Icon name="approve-check-circle" color="#55FF55" size="2rem"/>
+        </td>
+        <td>
+            This resource location is valid!
+        </td>
+    </tr>
+    <tr>
+        <td>
+            ```text ins="example_mod:stone"
+            example_mod:stone
+            ```
+        </td>
+        <td>
+            <Icon name="approve-check-circle" color="#55FF55" size="2rem"/>
+        </td>
+        <td>
+            This resource location is valid!
+        </td>
+    </tr>
+    <tr>
+        <td>
+            ```text ins="test_mod:smelting/double_ores"
+            test_mod:smelting/double_ores
+            ```
+        </td>
+        <td>
+            <Icon name="approve-check-circle" color="#55FF55" size="2rem"/>
+        </td>
+        <td>
+            This resource location is valid!
+        </td>
+    </tr>
+    <tr>
+        <td>
+            ```text del=" "
+            example:my mod
+            ```
+        </td>
+        <td>
+            <Icon name="error" color="#FF5555" size="2rem"/>
+        </td>
+        <td>
+            Spaces are not allowed!
+        </td>
+    </tr>
+    <tr>
+        <td>
+            ```text del="M" del="P" del="I"
+            MyPack:My_Id
+            ```
+        </td>
+        <td>
+            <Icon name="error" color="#FF5555" size="2rem"/>
+        </td>
+        <td>
+            Upper case characters are not allowed!
+        </td>
+    </tr>
+    <tr>
+        <td>
+            ```text del="грязь"
+            mypack:грязь
+            ```
+        </td>
+        <td>
+            <Icon name="error" color="#FF5555" size="2rem"/>
+        </td>
+        <td>
+            Non-latin alphabet is not allowed.
+        </td>
+    </tr>
+    <tr>
+        <td>
+            ```text del="/"
+            mypack/ores:platinum_ore
+            ```
+        </td>
+        <td>
+            <Icon name="error" color="#FF5555" size="2rem"/>
+        </td>
+        <td>
+            Forward slash can only be used in paths.
+        </td>
+    </tr>
+    <tr>
+        <td>
+            ```text del="#"
+            example:stone#painted
+            ```
+        </td>
+        <td>
+            <Icon name="error" color="#FF5555" size="2rem"/>
+        </td>
+        <td>
+            Underscores, hyphens, and periods are the only special characters allowed.
+        </td>
+    </tr>
+</table>
+
+## File Paths
+Resource locations can also be used to reference a file in a data pack or resource pack. The namespace and path are
+combined with a resource type to create the file path. This process also works in reverse, using the location and name
+of a file to create a resource location. Additionally, data files are held in a `data` folder while client side
+resources like textures and models are held in an `assets` folder. To give an example, a recipe with the resource
+location `example:dirt` is referencing the `data/example/recipes/dirt.json` file. If a file is located in sub-folders
+forward slashes will be used. For example the texture `assets/example/textures/item/my_texture.png` is referenced using
+the resource location `example:item/my_texture`.
+
+:::caution[File Extensions]
+In most cases file extensions like `.png` and `.json` are not included in the namespace. This is because the game
+already knows the type of file it is looking and will add it automatically. If an extension is required it should be
+mentioned in the documentation.
+:::
