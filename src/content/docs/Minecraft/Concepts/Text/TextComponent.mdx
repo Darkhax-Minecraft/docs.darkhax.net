@@ -1,0 +1,186 @@
+---
+title: Text Component
+description: Text component documentation for Minecraft 1.20.1.
+sidebar:
+  order: 0
+---
+Text components provide the foundation for customizable text in Minecraft. The text component is responsible for the
+context and style of the text. For example a text component can display a localized message with a specific color and
+font.
+
+## Content Types
+Minecraft includes several built-in component types that can be used and combined in different ways.
+
+### Plain Text
+A plain text component displays the text exactly as it is written.
+
+```json
+{
+  "text": "This is the text displayed in game."
+}
+```
+
+### Translatable
+Translatable text components are localized to the readers language. This requires an entry in the language file which
+can be added using a resource pack.
+
+#### Simple Example
+```json
+{
+  "translate": "my.translation.key"
+}
+```
+
+```json title="assets/your_pack/lang/en_us.json"
+{
+  "my.translation.key": "This is the text displayed in game."
+}
+```
+
+#### Fallback
+You can choose to define fallback text that will be shown if the reader does not have a translation key for your text.
+
+```json
+{
+  "translate": "my.translation.key",
+  "fallback": {
+    "text": "No translation key found. Download our resource pack!"
+  }
+}
+```
+
+#### Arguments
+Translatable text components can have arguments inserted into their text. These arguments are slotted in using `%s` in
+the translation text or `%n%s` where n is the index you want to reference.
+
+```json
+{
+  "translate": "my.translation.key",
+  "with": [
+    {
+      "text": "first"
+    },
+    {
+      "text": "second"
+    },
+    {
+      "text": "third"
+    }
+  ]
+}
+```
+
+```json title="assets/your_pack/lang/en_us.json"
+{
+  "my.translation.key": "This is the %s, %s, and %s argument. Or the %3%s, %2%s, and %1%s"
+}
+```
+
+### Scoreboard Text
+Displays the value of a scoreboard entry. The score holder is targeted using the `name` property. This can be a selector
+like `@p`, a name, or a `*` to refer to the readers score. The `objective` property sets the objective to get the value
+of.
+
+:::caution[Resolved Component]
+Scoreboard text can only be displayed if there is a world context available. For example, a chat message can use the
+scoreboard text because the world is loaded, but text on the main menu can not.
+:::
+
+```json
+{
+  "score": {
+    "name": "*",
+    "objective": "objective_name"
+  }
+}
+```
+
+### Entity Name
+Displays the name of one or more entities. The entities are selected using a `selector`. If multiple entities are
+defined they will be separated using a `,` or the `separator` value.
+
+:::caution[Resolved Component]
+Entity names can only be displayed if there is a world to load entities from. For example, a book can use the scoreboard
+text because the world is loaded, but the title screen can not.
+:::
+
+```json
+{
+  "selector": "@p",
+  "separator": {
+    "text": "|"
+  }
+}
+```
+
+### Key Binding
+Displays the name of the key that a key binding is mapped to. This can be used to display input instructions using the
+players configured key mappings. This should always be done where possible to improve the accessibility of your message.
+The key binding is specified by setting `keybind` to the ID of the key binding. A full list of vanilla key binding IDs
+can be found [here](/minecraft/concepts/registries/entries/key-bindings).
+
+```json
+{
+  "keybind": "key.sneak"
+}
+```
+
+### NBT Values
+Displays a value from the games NBT data. For example you can display the health of the nearest entity or the contents
+of a chest by reading the NBT data. There are three different types of NBT text components but they share a few common
+properties.
+
+- `nbt` - The path of the NBT value.
+- `interpret` - An optional boolean, when set to true NBT values will be interpreted as text components.
+- `separator` - An optional text component used to separate multiple values if more than one value is returned.
+
+:::caution[Resolved Component]
+Entity names can only be displayed if there is a world to load entities from. For example, a book can use the scoreboard
+text because the world is loaded, but the title screen can not.
+:::
+
+#### Entity NBT
+To display an NBT value from an entity you need to define an entity selector using the `entity` property. This example
+will display the health of some pig in the world.
+
+```json
+{
+  "nbt": "Health",
+  "entity": "@e[type=pig,limit=1]"
+}
+```
+
+#### Block NBT
+To display an NBT value from a block you need to define the position of the block using the `block` property. This
+example displays the ID of the item in the first slot of a chest at the coordinates `1, 64, 8`. The coordinates can also
+be relative.
+
+```json
+{
+  "nbt": "Items[0].id",
+  "block": "1 64 8"
+}
+```
+
+#### Storage NBT
+Minecraft allows arbitrary NBT data to be stored in the world using commands and other means. This data is bound to a
+[resource location](/minecraft/concepts/registries/resource_location). You can specify the ID of the data to read using
+the `storage` property.
+
+This command will set up a storage entry called `example:test` with the value `MyValue`
+```console
+/data merge storage example:test {MyValue:1273}
+```
+
+```json
+{
+  "nbt": "MyValue",
+  "storage": "example:test"
+}
+```
+
+## Modded Content Types
+Mods can add new content types to the game and can even expand upon the vanilla types. For example, the Bookshelf mod
+makes several values like the name of the current player available through its [Extended Text](/bookshelf/extended-text)
+feature. This feature can be used as an alternative to the [Entity Name](#entity-name) component that works when there
+is no world context available.
