@@ -2,7 +2,7 @@
 title: Resource Locations
 description: An explanation of Minecraft resource locations.
 sidebar:
-  order: 0
+  order: 901
 ---
 import { Icon } from '../../../../../components/Components.ts'
 
@@ -158,10 +158,12 @@ upper case letters, or non-latin letters. These are strict limitations imposed b
 Resource locations can also be used to reference a file in a data pack or resource pack. The namespace and path are
 combined with a resource type to create the file path. This process also works in reverse, using the location and name
 of a file to create a resource location. Additionally, data files are held in a `data` folder while client side
-resources like textures and models are held in an `assets` folder. To give an example, a recipe with the resource
-location `example:dirt` is referencing the `data/example/recipes/dirt.json` file. If a file is located in sub-folders
-forward slashes will be used. For example the texture `assets/example/textures/item/my_texture.png` is referenced using
-the resource location `example:item/my_texture`.
+resources like textures and models are held in an `assets` folder.
+
+To give an example, a recipe with the resource location `example:dirt` is referencing the
+`data/example/recipes/dirt.json` file. If a file is located in sub-folders forward slashes will be used. For example the
+texture `assets/example/textures/item/my_texture.png` is referenced using the resource location
+`example:item/my_texture`.
 
 :::caution[File Extensions]
 In most cases file extensions like `.png` and `.json` are not included in the namespace. This is because the game

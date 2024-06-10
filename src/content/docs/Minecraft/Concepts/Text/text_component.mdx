@@ -2,7 +2,7 @@
 title: Text Component
 description: Text component documentation for Minecraft 1.20.1.
 sidebar:
-  order: 0
+  order: 902
 ---
 Text components provide the foundation for customizable text in Minecraft. The text component is responsible for the
 context and style of the text. For example a text component can display a localized message with a specific color and
@@ -117,7 +117,7 @@ text because the world is loaded, but the title screen can not.
 Displays the name of the key that a key binding is mapped to. This can be used to display input instructions using the
 players configured key mappings. This should always be done where possible to improve the accessibility of your message.
 The key binding is specified by setting `keybind` to the ID of the key binding. A full list of vanilla key binding IDs
-can be found [here](/minecraft/concepts/registries/entries/key-bindings).
+can be found [here](/minecraft/concepts/registries/entries/key_bindings).
 
 ```json
 {
@@ -181,6 +181,6 @@ This command will set up a storage entry called `example:test` with the value `M
 
 ## Modded Content Types
 Mods can add new content types to the game and can even expand upon the vanilla types. For example, the Bookshelf mod
-makes several values like the name of the current player available through its [Extended Text](/bookshelf/extended-text)
+makes several values like the name of the current player available through its [Extended Text](/bookshelf/extended_text)
 feature. This feature can be used as an alternative to the [Entity Name](#entity-name) component that works when there
 is no world context available.
