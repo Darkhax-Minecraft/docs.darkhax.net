@@ -1,0 +1,79 @@
+---
+title: Extended Text
+description: Information about Bookshelf's extended text feature on Minecraft 1.20.1.
+sidebar:
+  order: 1
+---
+::cf-banner[]{p=228525}
+
+When Bookshelf is installed it will generate and load several language entries. These entries map to specific game
+properties and provide a way to display these properties without knowing their value. These properties are generated on
+the client and are never sent to the server or other players. Players can only see their own properties.
+
+## Using Extended Text
+Extended text entries are referenced using a localization key. The format used for the localization key is
+`text.bookshelf.ext.prop_name` where `prop_name` is the name of the property you want. For example the `mc_version`
+property would be `text.bookshelf.ext.mc_version`.
+
+:::tip[Localization Keys]
+Localization keys can be used by virtually anything that allows custom text in Minecraft. This includes books, signs,
+commands, and most mod features that display text. Bookshelf uses localization keys instead of a custom text type in
+order to maintain compatibility with the vanilla network protocol and other mods. Players without the Bookshelf mod will
+see the translation key or the fallback text if a fallback is specified.
+:::
+
+## Available Properties
+The following properties are available when Bookshelf is installed.
+
+| Property        | key                                | Example   | Description                                                                                                                                                                                                       |
+|-----------------|------------------------------------|-----------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `java_version`  | `text.bookshelf.ext.java_version`  | 17        | The version of Java being used by the reader.                                                                                                                                                                     |
+| `mc_version`    | `text.bookshelf.ext.mc_version`    | 1.20.1    | The version of Minecraft being used by the reader.                                                                                                                                                                |
+| `loader_name`   | `text.bookshelf.ext.loader_name`   | Fabric    | The name of the mod loader that the reader is using.                                                                                                                                                              |
+| `player_name`   | `text.bookshelf.ext.player_name`   | Jeb_      | The name of the readers Minecraft character. This can be used in situations where selector text components are unavailable.                                                                                       |
+| `modid_name`    | `text.bookshelf.ext.modid_name`    | Bookshelf | Displays the name of a mod based on the modid used. For example `text.bookshelf.ext.darkutils_name` will display the name of the Dark Utilities mod. The mod must be installed in order for this to be displayed. |
+| `modid_version` | `text.bookshelf.ext.modid_version` | 1.0.0     | Displays the version of a mod based on the modid used. For example `text.bookshelf.ext.botanypots_version` will display the version of botany pots. The mod must be installed in order for this to be displayed.  |
+
+## Examples
+The following examples show how extended entries from Bookshelf can be used.
+
+### TellRaw Example
+The tellraw command allows you to send formatted text in chat. This example will post a chat message that displays the
+readers own Minecraft version.
+
+```console
+/tellraw @p {"translate": "text.bookshelf.ext.mc_version"}
+```
+
+### Sign Example
+The following command will give you a sign item that will display the readers Minecraft version once placed. This is
+done by setting the NBT data of the sign.
+```console
+/give @a oak_sign{BlockEntityTag:{front_text:{messages:['["Your Minecraft"]','["version is"]','[{"translate":"text.bookshelf.ext.mc_version"}]','[""]']}}}
+```
+
+### Book Example
+The following command will give you a sign item that will display the readers Minecraft version.
+
+```console
+/give @p written_book{pages:['{"translate": "text.bookshelf.ext.mc_version"}'],title:"Your Minecraft Version",author:Darkhax}
+```
+
+### JSON Example
+Data packs and resource packs often use JSON files to add and configure properties. The following example shows the
+property as a JSON object. This format is very similar to the format used in commands and NBT.
+
+```json
+{
+  "translate": "text.bookshelf.ext.prop_name"
+}
+```
+
+### Fallback Example
+Translation text components can specify a fallback value if the translation key is not present. This can be useful for
+changing the text if the reader does not have Bookshelf or another mod installed. The following example will print the
+readers version of `examplemod` or the word `None`.
+
+```console
+/tellraw @p ["","Your version of ExampleMod is: ",{"translate":"text.bookshelf.ext.examplemod_version","color":"green", "fallback":"None"}]
+```
