@@ -1,0 +1,83 @@
+---
+title: Tips Mod
+description: Documentation for the Tips mod for Minecraft 1.20.1.
+sidebar:
+  order: 0
+---
+import { FileTree, Slideshow } from '../../../components/Components.ts'
+
+::cf-banner[]{p=306549}
+
+The Tips mod adds in-game tips to several loading screens. These tips will be slowly cycled through as you play the
+game. Tip entries can be customized by mod packs, resource packs, and even other mods!
+
+<Slideshow images={[
+    {
+        ref: 'https://docs.darkhax.net/assets/tipsmod/world_load_tip.png',
+        alt: 'Tips can be displayed when a world is being created or loaded.'
+    },
+    {
+        ref: 'https://docs.darkhax.net/assets/tipsmod/pause_screen_tips.png',
+        alt: 'Tips can be displayed when the player pauses their game.'
+    },
+    {
+        ref: 'https://docs.darkhax.net/assets/tipsmod/error_screen_tip.png',
+        alt: 'Tips can be displayed on the multiplayer error screen.'
+    }
+]}/>
+
+## Configuration
+The Tips mod will read configuration options from the `tips.json` file. Like most mods, the config file can be found in
+the config folder of your game. This file is used to configure the mod, if you want to add or modify tip entries read
+[this](/tips/custom_tips) page.
+
+:::note[Config File Generation]
+The config file will be generated in the **config** folder the first time you start the game **after** installing the
+mod. This is the standard way to generate a config file with default options. The config file is **NOT** inside the JAR
+file that you downloaded.
+:::
+
+### File Location
+
+<FileTree>
+    - .minecraft
+      - config
+        - **tips.json**
+      - logs/
+      - mods/
+      - resourcepacks/
+      - saves/
+</FileTree>
+
+### Options
+The `tips.json` file is a simple text file that can be edited using any text editor.
+
+| Property              | Example           | Description                                                                                                                                                                                                                                                                    |
+|-----------------------|-------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| defaultCycleTime      | `10000`           | The default amount of time in milliseconds to wait before displaying the next tip.                                                                                                                                                                                             |
+| ignoredNamespaces     | `["tipsmod"]`     | An array of tip namespaces to ignore. Ignored tips will not be displayed to users. All built-in tips will use the `tipsmod` namespace.                                                                                                                                         |
+| ignoredTips           | `["example:tip"]` | An array of specific tip IDs to ignore. Ignored tips are not displayed. You must use the full ID, including the namespace. If the entire namespace is already ignored, you don't need to include it here. You can find a list of all default tips [here](/tips/built-in-tips). |
+| hideUnlocalizedTips   | `true`            | Hides tips that have not been localized to your current language. The default behavior is to fallback to the english text, or the translation key if the english text is unavailable.                                                                                          |
+| tipRenderWidthPercent | `0.40`            | The percentage of the width of the screen to render tips over. The default is 0.35 which is 35% of the screens width.                                                                                                                                                          |
+| defaultTitle          | `{"text":"Hi"}`   | A [TextComponent](/minecraft/concepts/text/text_component) that defines the default title for tips. This title will be used if the title is not overidden by the tip itself.                                                                                                   |
+
+:::tip[Tip IDs & Resource Locations]
+Minecraft uses [Resource Locations](/minecraft/concepts/registries/resource-location) to reference game objects and
+resources. Tip IDs are also resource locations.
+:::
+
+```json title="Example Config"
+{
+  "defaultCycleTime": 10000,
+  "ignoredNamespaces": ["tipsmod"],
+  "ignoredTips": ["example:mod_tip"],
+  "hideUnlocalizedTips": true,
+  "tipRenderWidthPercent": 0.40,
+  "defaultTitle": {
+    "text": "Did You Know?",
+    "bold": true,
+    "underlined": true,
+    "color": "dark_aqua"
+  }
+}
+```

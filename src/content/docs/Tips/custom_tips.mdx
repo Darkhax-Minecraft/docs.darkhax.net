@@ -1,0 +1,350 @@
+---
+title: Custom Tips
+description: A guide to adding custom tip entries to the tips mod using resource packs.
+sidebar:
+  order: 1
+---
+import { FileTree } from '../../../components/Components.ts'
+
+::cf-banner[]{p=306549}
+
+Tip files are responsible for defining a tip and its properties. These are JSON files that are loaded from the `tips`
+folder of any resource pack that is installed and activated. If you are making a mod pack you should use a mod like
+[Open Loader](/open-loader) that can load and activate resources for you automatically. Mod authors can just include the
+tip in their mods resource pack files like any other resource.
+
+:::caution[One tip per file!]
+Each tip file can only contain one tip. If you want to add more tips create more tip files. This is how resource packs
+work in Minecraft, and it ensures each tip has a unique ID based on the file name.
+:::
+
+## File Location
+
+<FileTree>
+    - your_pack
+      - assets
+        - examplepack
+          - tips
+            - your_cool_tip.json
+      - pack.mcmeta
+      - pack.png
+</FileTree>
+
+## Tip File Overview
+
+| Property   | Required | Description                                                                                                                                                                                    |
+|------------|:--------:|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| tip        |   true   | Defines a [Text Component](/minecraft/concepts/text/text_component) that defines the contents of the tip and how the contents are displayed.                                                   |
+| title      |  false   | Defines a [Text Component](/minecraft/concepts/text/text_component) that defines the title section of the tip and how the title is displayed.                                                  |
+| cycleTime  |  false   | Defines how many milliseconds to wait before cycling to a new tip. This option overrides the default cycleTime defined in the config and allows longer tips to be displayed longer than usual. |
+| conditions |  false   | Defines [conditions](#display-conditions) for when and where the tip can be displayed.                                                                                                         |
+
+:::caution
+While the tip and title are [text components](/minecraft/concepts/text/text_component) they are not resolved with world
+data. This means you can not reference scoreboard text, entity names, nbt values, and other properties that need to be
+resolved. If you want to reference variables like the player name you can still use the
+[extended text](/bookshelf/extended_text) feature from Bookshelf.
+:::
+
+### Example Tips
+
+:::tip[Example Pack]
+All of the examples shown in this guide can be downloaded as a pre-packaged resource pack
+[here](https://docs.darkhax.net/assets/tipsmod/Tips-Example-1.0.0.zip). This pack has been repeatedly tested and
+validated, ensuring everything is correct and works as intended. You can use this pack as a reference for your own packs
+, or as a "known good" sample to compare a broken pack to.
+:::
+
+#### Plain Text
+This is a simple plain text tip that shows text exactly as it is written in the file.
+
+```json title="assets/example/tips/plain_text.json"
+{
+  "tip": {
+    "text": "This is an example tip."
+  }
+}
+```
+
+#### Styled Text
+The title and body of a tip are [text components](/minecraft/concepts/text/text_component). This means you can style
+your tips with different colors, fonts, and other Minecraft text features. This example tip has a title that is blue and
+a body that is light purple.
+
+```json title="assets/example/tips/styled_text.json"
+{
+  "title": {
+    "text": "Tip",
+    "color": "blue"
+  },
+  "tip": {
+    "text": "This example tip is purple.",
+    "color": "light_purple"
+  }
+}
+```
+
+#### Translated Tip
+This tip will display text based on the language selected by the player. Each translation must be manually defined in a
+language file include with your resource pack. While this option takes slightly more work to set up it is highly
+encouraged to use localized text. Even if you don't plan to localize the tip entries yourself, this approach will allow
+others to contribute localizations or share their own fan translations.
+
+```json title="assets/example/tips/translated_text.json"
+{
+  "tip": {
+    "translate": "example.translated.tip"
+  }
+}
+```
+
+:::note[Language Files]
+Each language has its own language file. A language file can contain multiple entries for that language. Do not try to
+create multiple language files for the same language.
+:::
+
+```json title="assets/example/lang/en_us.json"
+{
+  "example.translated.tip": "This is the tip in english!"
+}
+```
+
+```json title=assets/example/lang/es_mx.json"
+{
+  "example.translated.tip": "Este consejo está en español."
+}
+```
+
+#### Extended Text
+Tip files can use [extended text](/bookshelf/extended_text) from Bookshelf. This allows you to reference values like the
+name of the players Minecraft account within the tip.
+
+```json title="assets/example/tips/extended_text.json"
+{
+  "tip": [
+    "",
+    {
+      "text": "Hello there "
+    },
+    {
+      "translate": "text.bookshelf.ext.player_name"
+    },
+    {
+      "text": " we've been expecting you."
+    }
+  ]
+}
+```
+
+### Load Conditions
+Tip files are fully compatible with [load conditions](/bookshelf/load_conditions) from the Bookshelf mod. Load
+conditions give you greater control over when your tip can be loaded. For example if you are making a tip for a mod that
+may not always be installed you should consider the `bookshelf:mod_loaded` condition.
+
+```json title="assets/example/tips/load_condition.json"
+{
+  "bookshelf:load_conditions": [
+    {
+      "type": "bookshelf:mod_loaded",
+      "mods": ["dirt_to_diamonds"]
+    }
+  ],
+  "tip": {
+    "text": "Did you know diamonds are made from dirt?"
+  }
+}
+```
+
+### Display Conditions
+Display conditions give you greater control over when your tips can be displayed. For example you can make a tip that is
+only displayed when the player is in a certain biome or dimension.
+
+#### Condition Format
+Conditions are usually defined using named string arrays. You can combine these arrays to create increasingly specific
+rules for your condition. The meaning of the string values is explained in more detail in their dedicated section.
+
+The array types are:
+- `any_of` - At least one of the conditions must be satisfied.
+- `all_of` - All of the conditions must be satisfied.
+- `none_of` - None of the conditions must be satisfied.
+
+For example the following biome condition example will allow the tip to be shown in any biome in the overworld tag that
+is also is the river or beach tag, and is not the frozen river biome.
+
+```json
+{
+  "tip": {
+    "text": "This tip uses a combination of biome conditions. It will only show up in overworld biomes that are rivers or beaches, and are not the frozen river biome."
+  },
+  "conditions": {
+    "biomes": {
+      "all_of": [
+        "#minecraft:is_overworld"
+      ],
+      "any_of": [
+        "#minecraft:is_river",
+        "#minecraft:is_beach"
+      ],
+      "none_of": [
+        "minecraft:frozen_river"
+      ]
+    }
+  }
+}
+```
+
+#### Screen Condition
+Screen conditions allow you to specify the screens your tip can be displayed on. If a screen condition is defined all
+built-in logic for determining a valid screen will be ignored in favor of your condition. You can define screen
+conditions in any of the following ways.
+
+- `tipsmod:built-in` - Performs all of the built-in checks that are normally done.
+- [Vanilla Screen ID](/tips/screens/) - Checks if the screen matches a vanilla screen ID.
+- Fully Qualified Class Name - Checks if the screen has the same package and name in the code. For example the zapper screen from the create mod can be matched using `com.simibubu.create.content.equipment.zapper.ZapperScreen`.
+- Simple Class Name - Checks if the screen has the same name in the code. These are easier to read but have the potential to overlap. For example the zapper screen from the create mod can be matched using `ZapperScreen` but so will all other mods with a zapper screen.
+
+```json
+{
+  "tip": {
+    "text": "This tip uses a screen condition. It will only show up if the player is on the enchantment table screen."
+  },
+  "conditions": {
+    "screens": {
+      "all_of": [
+        "minecraft:enchantment_screen"
+      ]
+    }
+  }
+}
+```
+
+#### Advancement Condition
+Advancement conditions allow you to check if the player has earned an advancement. This allows you to do things like
+hide tips until the player has reached certain progression milestones or hide early game tips as the player progresses.
+You can define advancement conditions in any of the following ways.
+
+- [Resource Location](/minecraft/concepts/registries/resource_location) - Checks if the player has earned an advancement with the specified ID.
+- Namespace - Checks if the player has earned any advancement from the specified ID namespace. For example `botania` will check for any advancement with the ID `botania:******`
+- Regex `~` - Any string that starts with `~` will be treated as a regex pattern. This will check if the player has any advancement matching that pattern. For example `~^.*diamond.*$` will check for any advancement ID containing the term `diamond`.
+
+```json
+{
+  "tip": {
+    "text": "This tip uses a combination of advancement condition. It will only show up if the player has smelted an iron ingot, deflected an arrow or a ghast fireball, and has not entered the end."
+  },
+  "conditions": {
+    "advancements": {
+      "all_of": [
+        "minecraft:story/smelt_iron"
+      ],
+      "any_of": [
+        "minecraft:story/deflect_arrow",
+        "minecraft:nether/return_to_sender"
+      ],
+      "none_of": [
+        "minecraft:end/root"
+      ]
+    }
+  }
+}
+```
+
+#### Biome Condition
+Biome conditions allow you to check if the player is currently in a given biome. You can define biome conditions in any
+of the following ways.
+
+- [Resource Location](/minecraft/concepts/registries/resource_location) - Checks if the biome has the exact biome ID specified.
+- Namespace - Checks if the biome has the given namespace. For example `byg` will match any biome added by the "Oh The Biomes You'll Go" mod.
+- Tag `#` - Checks if the biome is in the specified biome registry tag. Any string that starts with `#` will be treated as a tag. For example `#minecraft:is_river` will check if the biome is in the `minecraft:is_river` tag.
+- Regex - Checks if the biome ID matches a regex pattern. Any string that starts with `~` will be treated as a regex pattern. For example `~^.*forest.*$` will check if the biome ID contains the term `forest`.
+
+```json
+{
+  "tip": {
+    "text": "This tip uses a combination of biome conditions. It will only show up in overworld biomes that are rivers or beaches, and are not the frozen river biome."
+  },
+  "conditions": {
+    "biomes": {
+      "all_of": [
+        "#minecraft:is_overworld"
+      ],
+      "any_of": [
+        "#minecraft:is_river",
+        "#minecraft:is_beach"
+      ],
+      "none_of": [
+        "minecraft:frozen_river"
+      ]
+    }
+  }
+}
+```
+
+#### Dimension Condition
+Dimension conditions allow you to check if the player is currently in a given dimension. You can define dimension
+conditions in any of the following ways.
+
+- [Resource Location](/minecraft/concepts/registries/resource_location) - Checks if the dimension has the exact ID specified.
+- Namespace - Checks if the dimension has the given namespace. For example `the_bumblezone` will match any dimension added by the Bumblezone mod.
+- Tag `#` - Checks if the dimension is in the specified registry tag. Any string that starts with `#` will be treated as a tag. For example `#example:has_mechanic_a` will check if the biome is in the `example:has_mechanic_a` tag.
+- Regex - Checks if the dimension ID matches a regex pattern. Any string that starts with `~` will be treated as a regex pattern. For example `~^.*void.*$` will check if the dimension ID contains the term `void`.
+
+```json
+{
+  "tip": {
+    "text": "This tip uses a combination of dimension type conditions. It will only show up if the player is in a vanilla dimension that has been added to the mech_1 or mech_2 tag but is not in the exclude_tips tag. These tags are examples for demonstration"
+  },
+  "conditions": {
+    "dimensions": {
+      "all_of": [
+        "minecraft"
+      ],
+      "any_of": [
+        "#example:mech_1",
+        "#example:mech_2"
+      ],
+      "none_of": [
+        "#example:exclude_tips"
+      ]
+    }
+  }
+}
+```
+
+## Modify Existing Tips
+This section explains how you can modify or replace existing tips. This will work for built-in tips and even tips added
+by other mods and resource packs.
+
+### Localized Tip
+If the tip uses localized text you can easily replace or modify the text using a language file. The language file must
+be in the same namespace folder as the language file you want to override. Your pack must also be loaded after the
+original pack. All of the built-in tips are localized and can be modified in this way.
+
+```json title="assets/tipsmod/lang/en_us.json"
+{
+  "tipsmod.tip.arthropods": "The contents of this tip have been replaced!"
+}
+```
+
+### Tip File
+If you want to change other properties of the tip or the tip does not use localized text, you can override the tip file.
+This is done by placing a tip file in the same folder as your target. Your pack must also be loaded after the original
+pack.
+
+For example, this file will replace the `tipsmod:bed_explode` tip with a tip that only displays when the player is not
+in the nether.
+
+```json title="assets/tipsmod/tips/bed_explode.json"
+{
+  "tip": {
+    "translate": "tipsmod.tip.bed_explode"
+  },
+  "conditions": {
+    "dimensions": {
+      "none_of": [
+        "minecraft:overworld"
+      ]
+    }
+  }
+}
+```
