@@ -23,8 +23,8 @@ export function betterLink(): Plugin<[], Root> {
                         }
                     }
                 }
-                else {
-                    console.warn(`Unhandled URL type ${node.url}`)
+                else if (!node.url.startsWith('#')) {
+                    console.warn(`Unhandled URL type "${node.url}"`)
                 }
             }
         })
