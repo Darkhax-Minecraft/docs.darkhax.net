@@ -31,10 +31,10 @@ const {images, showSlideCount = true, showDescriptions = true} = Astro.props;
         constructor() {
             super();
             let slide = 1;
-            this.querySelector('.prevSlide').addEventListener('click', () => {
+            (this.querySelector('.prevSlide') as HTMLElement).addEventListener('click', () => {
                 slide = this.moveSlides(slide, -1)
-            })
-            this.querySelector('.nextSlide').addEventListener('click', () => {
+            });
+            (this.querySelector('.nextSlide') as HTMLElement).addEventListener('click', () => {
                 slide = this.moveSlides(slide, 1)
             })
             this.moveSlides(slide, 0)
@@ -42,7 +42,7 @@ const {images, showSlideCount = true, showDescriptions = true} = Astro.props;
 
         moveSlides(slideIndex: number, offset: number) {
             slideIndex += offset
-            const slides = this.getElementsByClassName('slide')
+            const slides = this.getElementsByClassName('slide') as HTMLCollectionOf<HTMLElement>
             if (slideIndex > slides.length) {
                 slideIndex = 1
             }
