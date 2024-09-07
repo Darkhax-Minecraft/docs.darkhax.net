@@ -1,0 +1,96 @@
+---
+title: Splashy
+description: Documentation for the Splashy mod for Minecraft 1.20.1.
+sidebar:
+  order: 0
+---
+import { FileTree } from '../../components/Components.ts'
+
+::cf-banner[]{p=354674}
+
+The splashy mod provides tools for customizing the splash text on the main menu of the game. For example, you can add
+new splash text entries and remove the built-in vanilla ones!
+
+## Configuration
+Splashy will use the `splashy.json` file for configuration options. Like most mods, the config file can be found in your
+games config folder.
+
+:::note[Config File Generation]
+The config file will be generated in the **config** folder the first time you start the game **after** installing the
+mod. This is the standard way to generate a config file with default options. The config file is **NOT** inside the JAR
+file that you downloaded.
+:::
+
+<FileTree>
+    - .minecraft
+      - config
+        - **splashy.json**
+      - logs/
+      - mods/
+      - resourcepacks/
+      - saves/
+</FileTree>
+
+:::caution[Config Reloading]
+This config file can not be reloaded while the game is open. For changes to take effect you must close the game and
+launch it again. The `/reload` command and the `F3+T` keybind will not reload the file.
+:::
+
+### Options
+
+The `splashy.json` file is a simple text file that can be edited using notepad, nano, textedit, or any other text editor
+program. Inside the file you will see the following options.
+
+| Property               | Default | Functionality                                                                         |
+|------------------------|---------|---------------------------------------------------------------------------------------|
+| includeVanillaSplashes | true    | When disabled, only splashes defined using the Splashy mod will be displayed.         |
+| includeModNames        | true    | When enabled the names of all installed mods will be added as potential splash texts. |
+| customSplashes         | []      | An array of splash text entries to add to the pool of possible splash text entries.   |
+| displaySplashes        | true    | When disabled, splash texts will not be rendered at all.                              |'
+
+### Splash Text Entries
+
+New splash texts can be added to the `customSplashes` property. Each string in this array represents a new entry that
+may show up in game. The entry can be a simple string with the text of your splash text.
+
+```json {4-8} title="config/splashy.json"
+{
+  "includeVanillaSplashes": true,
+  "includeModNames": true,
+  "customSplashes": [
+    "Hello World",
+    "Read the docs!",
+    "Yet Another Splash Text"
+  ],
+  "displaySplashes": true
+}
+```
+
+### Localized Text Entries
+If the splash entry matches a valid localization key the mod will attempt to localize it using the players selected
+language. For example adding `item.minecraft.stone_axe` will display the name of the stone axe item in the players
+current language. We recommend using localized splash entries whenever possible. New localization keys can be defined
+using a vanilla language file.
+
+```json {4-6} title="config/splashy.json"
+{
+  "includeVanillaSplashes": true,
+  "includeModNames": true,
+  "customSplashes": [
+    "your_pack.splashes.hello_world"
+  ],
+  "displaySplashes": true
+}
+```
+
+```json title="assets/your_pack/lang/en_us.json"
+{
+  "your_pack.splashes.hello_world": "Hello World!"
+}
+```
+
+```json title="assets/your_pack/lang/es_mx.json"
+{
+  "your_pack.splashes.hello_world": "Hola Mundo!"
+}
+```
