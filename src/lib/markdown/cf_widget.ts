@@ -15,7 +15,7 @@ export async function getProjectData(projectId: string | number, file: VFile | u
                     console.log(`Caching project ${projectId}`);
                     return value;
                 })
-                .catch((reason) => fail(`Could not get project data. reason=${reason}`, file, node))
+                .catch((reason) => fail(`Could not get project data. project=${projectId} reason=${reason}`, file, node))
         );
     }
     const ret = projectCache.get(id);
